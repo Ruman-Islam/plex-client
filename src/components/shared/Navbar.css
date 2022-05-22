@@ -1,0 +1,12 @@
+nav {
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.scroll {
+    background-color: white;
+    color: black !important;
+}
