@@ -1,0 +1,57 @@
+[
+    {
+        "_id": "1",
+        "productName": "Mecc Alte spa Eco 38-2LN/4",
+        "productPrice": 520,
+        "productImage" : "https://images.squarespace-cdn.com/content/v1/5b7d9ea73917ee404ce300de/1541798958068-I33IVWQKCCCQX6P125VO/Veo+Robotics+The+Factory+as+a+Machine?format=1000w",
+        "productDesc" : "Window laminating machine 1000 mm x 1400 mm, Packaging. Cardboard packer for 1000",
+        "minimumOrder": 1000,
+        "availableQuantity": 500
+    },
+    {
+        "_id": "2",
+        "productName": "Envirotec 9.0",
+        "productPrice": 520,
+        "productImage" : "https://media.istockphoto.com/photos/production-line-of-plastic-industry-picture-id510162486?k=20&m=510162486&s=612x612&w=0&h=LgvSfETkGUnKe19JlkCk7XfZ4X55K0WUfOynMeiG7uM=",
+        "productDesc" : "Semi-automatic laminating machine 1450 mm, Electrical. Low power AC drive",
+        "minimumOrder": 1000,
+        "availableQuantity": 500
+    },
+    {
+        "_id": "3",
+        "productName": "Optimum OPTImill F 150",
+        "productPrice": 520,
+        "productImage" : "https://images.squarespace-cdn.com/content/v1/5b7d9ea73917ee404ce300de/1541798958068-I33IVWQKCCCQX6P125VO/Veo+Robotics+The+Factory+as+a+Machine?format=1000w",
+        "productDesc" : "Cardboard packer for 1000 ml Base, Film wrapper, Mechanical. 3 Sets of profile screws",
+        "minimumOrder": 1000,
+        "availableQuantity": 500
+    },
+    {
+        "_id": "4",
+        "productName": "Stork-Wartsila 8SW28",
+        "productPrice": 520,
+        "productImage" : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJpw91OzyYXnsUz-lDzb7auA-WPXt5VYJ_lw&usqp=CAU",
+        "productDesc" : "Cardboard packer for 200 ml Slim, Accumulator for carton packages of 250 ml Prisma",
+        "minimumOrder": 1000,
+        "availableQuantity": 500
+    },
+    {
+        "_id": "5",
+        "productName": "Corema PC/AC 60EC/2-1",
+        "productPrice": 520,
+        "productImage" : "https://images.squarespace-cdn.com/content/v1/5b7d9ea73917ee404ce300de/1541798958068-I33IVWQKCCCQX6P125VO/Veo+Robotics+The+Factory+as+a+Machine?format=1000w",
+        "productDesc" : "Accumulator for carton packages of 250 ml Prisma, Shrink wrapper for 500 ml and 1000 m",
+        "minimumOrder": 1000,
+        "availableQuantity": 500
+    },
+    {
+        "_id": "6",
+        "productName": "ELECTRODIESEL ED/CU.LY",
+        "productPrice": 520,
+        "productImage" : "https://images.squarespace-cdn.com/content/v1/5b7d9ea73917ee404ce300de/1541798958068-I33IVWQKCCCQX6P125VO/Veo+Robotics+The+Factory+as+a+Machine?format=1000w",
+        "productDesc" : "Accumulator for carton packages of 1.000 ml, Slim, PET Compressors. 42 bar booster + 1..",
+        "minimumOrder": 1000,
+        "availableQuantity": 500
+    }
+
+]

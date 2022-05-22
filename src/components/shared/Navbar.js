@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AiOutlineAlignLeft, AiFillDatabase } from "react-icons/ai";
+import { AiOutlineAlignLeft, AiOutlineMenu } from "react-icons/ai";
 import { Drawer, Button } from 'antd';
 import { NavLink } from 'react-router-dom';
 import useNav from '../../hooks/useNav';
@@ -21,7 +21,7 @@ const Navbar = () => {
             <div className="header">
                 <div className="logo">
                     <NavLink className={`text-white ${navbar && 'text-black'}`} to="/">
-                        <span className='flex items-center text-4xl xl:text-5xl'>PL<AiFillDatabase className='text-primary' />X</span>
+                        <span className='flex items-center text-4xl xl:text-5xl'>PL<AiOutlineMenu className='text-primary' />X</span>
                     </NavLink>
                 </div>
                 <div className="mobileHidden">

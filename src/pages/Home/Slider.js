@@ -4,12 +4,16 @@ import img1 from '../../assets/images/advanced-manufacturing-rock.jpeg';
 import img2 from '../../assets/images/report.webp';
 import img3 from '../../assets/images/220x260_IDC-CSAT-ERP-Plex.webp';
 
+const contentStyle = {
+    background: '#F2F3F3',
+};
+
 const Slider = () => {
     return (
         <Carousel autoplay>
             <>
-                <div className='flex flex-col xl:flex-row justify-center items-center h-[400px] xl:h-[250px]'>
-                    <div className='w-56 h-44'>
+                <div style={contentStyle} className='xl:px-96 flex flex-col xl:flex-row justify-center items-center h-[600px] xl:h-[200px]'>
+                    <div className='w-56 h-36'>
                         <img className='w-full' src={img1} alt="" />
                     </div>
                     <div className='text-black text-xl px-5'>
@@ -19,8 +23,8 @@ const Slider = () => {
                 </div>
             </>
             <>
-                <div className='flex flex-col xl:flex-row justify-center items-center h-[600px] xl:h-[250px]'>
-                    <div className='w-56 h-44 mb-20'>
+                <div style={contentStyle} className='xl:px-96 flex flex-col xl:flex-row justify-center items-center h-[600px] xl:h-[200px]'>
+                    <div className='w-56 h-36'>
                         <img className='w-full' src={img2} alt="" />
                     </div>
                     <div className='text-black text-xl px-5'>
@@ -30,8 +34,8 @@ const Slider = () => {
                 </div>
             </>
             <>
-                <div className='flex flex-col xl:flex-row justify-center items-center h-[400px] xl:h-[250px]'>
-                    <div className='w-44 h-44 my-28'>
+                <div style={contentStyle} className='xl:px-96 flex flex-col xl:flex-row justify-center items-center h-[600px] xl:h-[200px]'>
+                    <div className='w-56 h-36'>
                         <img className='w-full' src={img3} alt="" />
                     </div>
                     <div className='text-black text-xl px-5'>
