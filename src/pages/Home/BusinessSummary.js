@@ -16,7 +16,7 @@ const BusinessSummary = () => {
                     <div className='flex items-center justify-center text-6xl 2xl:text-9xl font-extrabold'>
                         <span>A</span><span className='text-4xl 2xl:text-7xl text-primary'><StarOutlined /></span>
                     </div>
-                    <span className='text-xl'>Security Rating</span>
+                    <span className='text-xl xl:mr-12'>Security Rating</span>
                 </div>
                 <div>
                     <div className='flex items-center justify-center text-6xl 2xl:text-9xl font-extrabold'>

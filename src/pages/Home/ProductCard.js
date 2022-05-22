@@ -13,16 +13,16 @@ const ProductCard = ({ product }) => {
         borderRadius: '5px',
     };
     return (
-        <div md={6} lg={4} className="my-3">
+        <div className="my-3">
             <div style={background} className="product">
                 <div className="main">
-                    <h3 className='text-primary text-xl font-bold'>{productName}</h3>
-                    <h3 className='text-primary text-xl font-bold'>Price P/U: {productPrice} $</h3>
-                    <h3 className='text-primary text-xl font-bold'>Minimum Order: {minimumOrder}</h3>
-                    <h3 className='text-primary text-xl font-bold'>Available: {availableQuantity}</h3>
-                    <button className="btn button">
-                        <Link className="btn__link" to={`/admin/book/${_id}`}>
-                            <span className='text-secondary font-bold'>ORDER</span>
+                    <h3 className='text-base-100 text-lg italic font-bold'>{productName}</h3>
+                    <h3 className='text-base-100 text-lg italic font-bold'>Price P/U: {productPrice} $</h3>
+                    <h3 className='text-base-100 text-lg italic font-bold'>Minimum Order: {minimumOrder}</h3>
+                    <h3 className='text-base-100 text-lg italic font-bold'>Available: {availableQuantity}</h3>
+                    <button className="btn btn-primary px-12 rounded">
+                        <Link to={`/admin/book/${_id}`}>
+                            <span className='text-base-100 text-lg font-semibold'>ORDER NOW</span>
                         </Link>
                     </button>
                 </div>
