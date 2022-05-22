@@ -20,7 +20,7 @@ const Navbar = () => {
         <nav className={`fixed w-full z-50 ${navbar && 'scroll duration-500 shadow-lg'}`}>
             <div className="header">
                 <div className="logo">
-                    <NavLink className={`text-white ${navbar && 'text-black'}`} to="/">
+                    <NavLink className={`text-white hover:text-white ${navbar && 'text-black hover:text-black'}`} to="/">
                         <span className='flex items-center text-4xl xl:text-5xl'>PL<AiOutlineMenu className='text-primary' />X</span>
                     </NavLink>
                 </div>
