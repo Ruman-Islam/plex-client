@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
     };
     return (
         <div md={6} lg={4} className="my-3">
-            <div style={background} className="service">
+            <div style={background} className="product">
                 <div className="main">
                     <h3 className='text-primary text-xl font-bold'>{productName}</h3>
                     <h3 className='text-primary text-xl font-bold'>Price P/U: {productPrice} $</h3>

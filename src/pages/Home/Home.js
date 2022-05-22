@@ -4,6 +4,8 @@ import Hero from './Hero';
 import Slider from './Slider';
 import BusinessSummary from './BusinessSummary';
 import Review from './Review';
+import OurCustomers from './OurCustomers';
+import ChatOption from './ChatOption';
 
 const Home = () => {
     return (
@@ -13,6 +15,8 @@ const Home = () => {
             <Products />
             <BusinessSummary />
             <Review />
+            <OurCustomers />
+            <ChatOption />
         </div>
     );
 };

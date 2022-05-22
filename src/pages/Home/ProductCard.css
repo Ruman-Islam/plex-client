@@ -1,4 +1,4 @@
-.service {
+.product {
     width: 350px;
     background-color: #fff;
     border-radius: 5px;
@@ -7,8 +7,9 @@
     height: 250px;
     transition: all 750ms;
     border-radius: 5px;
+    cursor: pointer;
   }
-  .service::before {
+  .product::before {
     position: absolute;
     content: '';
     display: block;
@@ -48,6 +49,7 @@
     width: 50px;
     height: 50px;
   }
+
   .main {
     transform: scale(0.981);
     transition: all 750ms;
@@ -62,11 +64,11 @@
     color: #fff;
   }
   
-  .service:hover .overlay {
+  .product:hover .overlay {
     transform: scale(0);
   }
-  .service:hover .main {
+  .product:hover .main {
     transform: scale(1) translateY(-15px);
     transition: all 750ms;
-    transition-delay: 0.1s;
+    transition-delay: 0.5s;
   }
