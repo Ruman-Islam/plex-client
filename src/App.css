@@ -131,6 +131,19 @@
   display: block;
 }
 
+.ant-carousel .slick-dots li button {
+  background: gray;
+  opacity: 0.4;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  opacity: 1;
+  background: black;
+}
+
 
 @media only screen and (max-width: 767px) {
   .pricingBlock .ant-row > div:nth-child(2) .ant-list-item {

@@ -1,46 +1,12 @@
 import React from 'react';
 import Hero from './Hero';
+import Slider from './Slider';
 
 const Home = () => {
     return (
         <div>
             <Hero />
-
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
-            <h1>hellor</h1>
+            <Slider />
         </div>
     );
 };
