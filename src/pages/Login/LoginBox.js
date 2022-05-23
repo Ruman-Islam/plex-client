@@ -16,7 +16,9 @@ const LoginBox = ({ signInWithEmailAndPassword }) => {
 
     // handle submit 
     const onSubmit = async (data) => {
-        console.log(data);
+        const email = data.email;
+        const password = data.password;
+        await signInWithEmailAndPassword(email, password)
     };
     return (
         <>
@@ -34,7 +36,8 @@ const LoginBox = ({ signInWithEmailAndPassword }) => {
                                         value: true,
                                         message: 'Email is Required'
                                     }
-                                })} /></span>
+                                })} />
+                        </span>
                     </div>
                     <label
                         className='text-red-500 text-xs'>
@@ -71,7 +74,7 @@ const LoginBox = ({ signInWithEmailAndPassword }) => {
                 </div>
                 <span
                     onClick={() => navigate('/reset-password')}
-                    className='text-right cursor-pointer text-blue-800 w-36 ml-auto'>
+                    className='text-right cursor-pointer text-sky-500 hover:underline w-38 ml-auto pr-1'>
                     Forgot your Password?
                 </span>
                 <span
@@ -83,9 +86,9 @@ const LoginBox = ({ signInWithEmailAndPassword }) => {
                 <span className='text-slate-500 flex justify-center'>
                     No account?
                     <span
-                        onClick={() => navigate('/signup')}
+                        onClick={() => navigate('/register')}
                         className='primary-color cursor-pointer'>
-                        <span className='ml-1 text-blue-700'>Create one here</span>
+                        <span className='ml-1 text-sky-500 hover:underline'>Create one here</span>
                     </span>
                 </span>
             </form>

@@ -1,29 +1,39 @@
-import React, { useEffect } from 'react';
-import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { RollbackOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
+import React, { useEffect } from 'react';
+import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Spinner from '../../components/shared/Spinner';
 import auth from '../../firebase/firebaseConfig';
-import LoginBox from './LoginBox';
+import RegisterBox from './RegisterBox';
 import SocialLogin from './SocialLogin';
-import { RollbackOutlined } from '@ant-design/icons';
-import './login.css';
 
-const Login = () => {
+const Register = () => {
     const year = new Date().getFullYear();
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
     const [
-        signInWithEmailAndPassword,
-        user, loading, error,
-    ] = useSignInWithEmailAndPassword(auth);
+        createUserWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useCreateUserWithEmailAndPassword(auth);
+    const [updateProfile, ,] = useUpdateProfile(auth);
 
     useEffect(() => {
-        if (user) navigate(from, { replace: true });
+        // if (user) {
+        //     if (!user.user?.emailVerified) {
+        //         navigate('/verify-email');
+        //     } else {
+        //         navigate(from, { replace: true });
+        //     }
+        // }
+        if (user) {
+            navigate(from, { replace: true });
+        }
     }, [user, error, from, navigate]);
-
 
     return (
         <div className='h-screen flex flex-col justify-center items-center login'>
@@ -32,11 +42,12 @@ const Login = () => {
                     <div className='login-logo'></div>
                     <div className='border border-black shadow-lg'>
                         <div className='bg-neutral py-0.5 border border-t-0 border-l-0 border-r-0 border-b-1'>
-                            <h1 className='text-left text-lg my-2 ml-5'>Login</h1>
+                            <h1 className='text-left text-lg my-2 ml-5'>Register</h1>
                         </div>
                         <div className='bg-base-100 p-5'>
-                            <LoginBox
-                                signInWithEmailAndPassword={signInWithEmailAndPassword} />
+                            <RegisterBox
+                                createUserWithEmailAndPassword={createUserWithEmailAndPassword}
+                                updateProfile={updateProfile} />
                             <Divider>or</Divider>
                             <SocialLogin />
                         </div>
@@ -52,4 +63,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default Register;
