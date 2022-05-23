@@ -26,7 +26,7 @@ const Login = () => {
 
 
     return (
-        <div className='h-screen flex flex-col justify-center items-center login'>
+        <div className='h-[120vh] 2xl:h-screen flex flex-col justify-center items-center login'>
             {loading ? <Spinner /> :
                 <>
                     <div className='login-logo'></div>

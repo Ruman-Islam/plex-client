@@ -187,10 +187,10 @@ const Footer = () => {
             </div>
             <div className='border border-t-0 border-l-0 border-r-0 border-b-1 w-10/12 mx-auto mt-10 2xl:mt-20'>
                 <ul className='flex justify-center 2xl:justify-start text-4xl 2xl:pl-10'>
-                    <li className='ml-1 hover:text-primary cursor-pointer'><FacebookFilled /></li>
-                    <li className='ml-1 hover:text-primary cursor-pointer'><TwitterSquareFilled /></li>
-                    <li className='ml-1 hover:text-primary cursor-pointer'><LinkedinFilled /></li>
-                    <li className='ml-1 hover:text-primary cursor-pointer'><YoutubeFilled /></li>
+                    <li className='ml-1 text-blue-600 hover:text-primary cursor-pointer duration-300'><FacebookFilled /></li>
+                    <li className='ml-1 text-sky-600 hover:text-primary cursor-pointer duration-300'><TwitterSquareFilled /></li>
+                    <li className='ml-1 text-blue-900 hover:text-primary cursor-pointer duration-300'><LinkedinFilled /></li>
+                    <li className='ml-1 text-red-600 hover:text-primary cursor-pointer duration-300'><YoutubeFilled /></li>
                 </ul>
             </div>
             <p className='text-center text-secondary font-bold mt-2'>© {year} Ruman Islam. All rights reserved</p>

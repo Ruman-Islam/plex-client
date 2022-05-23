@@ -131,6 +131,15 @@
   display: block;
 }
 
+.sidebarMobileVisible {
+  display: none;
+}
+
+.sidebarMobileHidden {
+  display: flex;
+  flex-direction: column;
+}
+
 .ant-carousel .slick-dots li button {
   background: gray;
   opacity: 0.4;
@@ -155,6 +164,14 @@
   }
   
   .mobileHidden {
+    display: none;
+  }
+
+  .sidebarMobileVisible {
+    display: block;
+  }
+  
+  .sidebarMobileHidden {
     display: none;
   }
 }

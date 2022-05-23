@@ -3,7 +3,7 @@ import './Hero.css';
 
 const Hero = () => {
     return (
-        <div className="hero h-screen xl:h-[80vh] hero-container">
+        <div className="hero 2xl:h-[80vh] hero-container pt-12 2xl:pt-0">
             <div className="hero-content flex-col lg:flex-row z-50">
                 <div className='mt-20 xl:mr-16 tracking-widest'>
                     <h1 className='uppercase text-5xl xl:text-6xl leading-none font-extrabold text-white'>Make your</h1>
