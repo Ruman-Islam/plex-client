@@ -1,5 +1,5 @@
-import { EyeInvisibleOutlined, EyeOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
-import React, { useState } from 'react';
+import { EyeInvisibleOutlined, EyeOutlined } from '@ant-design/icons';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,85 +16,83 @@ const LoginBox = ({ signInWithEmailAndPassword }) => {
 
     // handle submit 
     const onSubmit = async (data) => {
-        const email = data.email;
-        const password = data.password;
-        await signInWithEmailAndPassword(email, password)
+        console.log(data);
     };
     return (
-        <div>
-            <h1 className='text-left text-2xl my-2 ml-5 font-semibold underline text-accent'>Sign In</h1>
+        <>
             <form onSubmit={handleSubmit(onSubmit)}
-                className='flex flex-col p-5 py-1'>
-                <>
-                    <div className='flex justify-center items-center'>
-                        <div className='border p-4'>
-                            <MailOutlined />
-                        </div>
-                        <input
-                            className='border border-l-0 w-full p-3 text-md my-2 outline-0'
-                            type="email"
-                            placeholder='Email'
-                            {...register("email", {
-                                required: {
-                                    value: true,
-                                    message: 'Email is Required'
-                                }
-                            })} />
+                className='flex flex-col bg-neutral border py-2 px-0.5 w-80 2xl:w-96'>
+                <div className='text-right mt-2 hover:bg-sky-100 p-1'>
+                    <div className='flex items-center w-72 2xl:w-80 ml-auto'>
+                        <span className='w-1/5 mr-2 text-md font-bold'>Email</span>
+                        <span className='w-4/5'>
+                            <input
+                                className='w-full border hover:border-sky-600 duration-500 outline-none py-1 px-2'
+                                type="email"
+                                {...register("email", {
+                                    required: {
+                                        value: true,
+                                        message: 'Email is Required'
+                                    }
+                                })} /></span>
                     </div>
                     <label
                         className='text-red-500 text-xs'>
                         {errors.email && errors.email?.message}
                     </label>
-                </>
-                <>
-                    <div className='flex justify-center items-center relative'>
-                        <div className='border p-4'>
-                            <LockOutlined />
-                        </div>
-                        <input
-                            className='border border-l-0 w-full p-3 text-md my-2 outline-0'
-                            type={passwordEye === false ? "password" : "text"}
-                            placeholder='Password'
-                            {...register("password", {
-                                required: {
-                                    value: true,
-                                    message: 'Password is Required'
-                                }
-                            })} />
-                        {/* eye section */}
-                        <div className="text-xl absolute top-6 right-5">
-                            {passwordEye === false ? (
-                                <EyeOutlined onClick={handlePasswordClick} />
-                            ) : (
-                                <EyeInvisibleOutlined onClick={handlePasswordClick} />
-                            )}
-                        </div>
+                </div>
+                <div className='text-right my-2 hover:bg-sky-100 p-1'>
+                    <div className='flex items-center w-72 2xl:w-80 ml-auto'>
+                        <span className='w-1/5 mr-2 text-md font-bold'>Password</span>
+                        <span className='w-4/5 relative'>
+                            <input
+                                className='w-full border hover:border-sky-600 duration-500 outline-none py-1 px-2'
+                                type={passwordEye === false ? "password" : "text"}
+                                {...register("password", {
+                                    required: {
+                                        value: true,
+                                        message: 'Password is Required'
+                                    }
+                                })} />
+                            {/* eye section */}
+                            <div className="text-sm absolute top-1 right-2">
+                                {passwordEye === false ? (
+                                    <EyeInvisibleOutlined onClick={handlePasswordClick} />
+                                ) : (
+                                    <EyeOutlined onClick={handlePasswordClick} />
+                                )}
+                            </div>
+                        </span>
                     </div>
                     <label
                         className='text-red-500 text-xs'>
                         {errors.password && errors.password?.message}
                     </label>
-                </>
-                <small
-                    onClick={() => navigate('/reset-password')}
-                    className='text-right cursor-pointer text-blue-800'>
-                    Forgot your Password?
-                </small>
-                <input
-                    className='border py-1 mt-5 cursor-pointer rounded-md
-                  hover:bg-secondary text-white font-bold bg-accent duration-300'
-                    type="submit" value="Log in" />
-            </form>
-            <small className='text-slate-500 flex justify-center'>
-                No account?
+                </div>
                 <span
-                    onClick={() => navigate('/signup')}
-                    className='primary-color cursor-pointer'>
-                    <span className='ml-1 text-blue-700'>Create one here</span>
+                    onClick={() => navigate('/reset-password')}
+                    className='text-right cursor-pointer text-blue-800 w-36 ml-auto'>
+                    Forgot your Password?
                 </span>
-            </small>
-        </div>
+                <span
+                    className='w-28 py-0.5 my-5 text-lg text-white duration-300 cursor-pointer
+                  bg-sky-700 hover:bg-sky-600 mx-auto text-center rounded border'>
+                    <input className='cursor-pointer'
+                        type="submit" value="Log in" />
+                </span>
+                <span className='text-slate-500 flex justify-center'>
+                    No account?
+                    <span
+                        onClick={() => navigate('/signup')}
+                        className='primary-color cursor-pointer'>
+                        <span className='ml-1 text-blue-700'>Create one here</span>
+                    </span>
+                </span>
+            </form>
+        </>
     );
 };
 
+
 export default LoginBox;
+

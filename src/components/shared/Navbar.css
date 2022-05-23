@@ -7,6 +7,12 @@ nav {
 }
 
 .scroll {
-    background-color: white;
+    background-color: rgba(0, 0, 0, 0.5);
     color: black !important;
+}
+
+.scroll-up {
+    transform: translateY(-120px);
+    background-color: rgba(0, 0, 0, 0.5);
+    transition: 0.5s;
 }

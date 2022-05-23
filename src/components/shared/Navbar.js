@@ -8,6 +8,7 @@ import './Navbar.css';
 const Navbar = () => {
     const { navbar } = useNav();
     const [visible, setVisible] = useState(false);
+    console.log(navbar);
 
     const showDrawer = () => {
         setVisible(true);
@@ -17,7 +18,7 @@ const Navbar = () => {
         setVisible(false);
     };
     return (
-        <nav className={`fixed w-full z-50 ${navbar && 'scroll duration-500 shadow-lg'}`}>
+        <nav className={`fixed w-full z-50 ${navbar === 5 ? 'scroll-up' : 'scroll duration-500 shadow-lg'}`}>
             <div className="header">
                 <div className="logo">
                     <NavLink className={`text-white hover:text-white ${navbar && 'text-black hover:text-black'}`} to="/">
@@ -31,7 +32,7 @@ const Navbar = () => {
                     <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
                     <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
                     <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
+                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/login">Login</NavLink>
                 </div>
                 <div className="mobileVisible relative left-20">
                     <>
