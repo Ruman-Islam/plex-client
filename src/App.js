@@ -8,6 +8,8 @@ import './App.css';
 import Login from './pages/Login/Login';
 import Register from './pages/Login/Register';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Purchase from './pages/Dashboard/Purchase';
+import PrivateRoute from './authentication/PrivateRoute';
 
 function App() {
   return (
@@ -19,7 +21,13 @@ function App() {
         <Route path='/products' element={<Products />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path="/dashboard" element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }>
+          <Route path='purchase/:id' element={<Purchase />} />
+        </Route>
       </Routes>
       {/* <Footer /> */}
     </div>

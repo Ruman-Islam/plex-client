@@ -1,26 +1,25 @@
 import { Popconfirm } from 'antd';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { AiOutlineMenu } from "react-icons/ai";
 import { signOut } from 'firebase/auth';
-import useNav from '../../hooks/useNav';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase/firebaseConfig';
 import Navbar from '../shared/Navbar';
 
 const Sidebar = () => {
-    const { navbar } = useNav();
     const [user, ,] = useAuthState(auth);
     const navigate = useNavigate();
     return (
-        <aside className='bg-base-100 2xl:w-48 h-screen border'>
-            <div className="sidebarMobileHidden">
+        <aside className='bg-base-100 h-screen border'>
+            <div className="logo hidden xl:block">
+                <NavLink className="text-black" to="/">
+                    <span className='flex justify-center my-5 text-3xl'>PL<AiOutlineMenu className='text-primary' />X</span>
+                </NavLink>
+            </div>
+            <div className="sidebarMobileHidden w-48">
                 <NavLink className="ant-anchor-link" to="/home">Home</NavLink>
-                <NavLink className="ant-anchor-link" to="/products">Products</NavLink>
-                <NavLink className="ant-anchor-link" to="/products">Products</NavLink>
-                <NavLink className="ant-anchor-link" to="/products">Products</NavLink>
-                <NavLink className="ant-anchor-link" to="/products">Products</NavLink>
-                <NavLink className="ant-anchor-link" to="/products">Products</NavLink>
                 {user ? <Popconfirm
-                    placement="bottom"
+                    placement="bottomRight"
                     title="Are you sure want to logout?"
                     onConfirm={async () => {
                         await signOut(auth)
@@ -28,14 +27,13 @@ const Sidebar = () => {
                     }}
                     okText="Logout"
                     cancelText="Cancel">
-                    <a href='www.facebook.com' className={`ant-anchor-link text-white ${navbar && 'text-black'}`}>Logout</a>
+                    <a href='www.facebook.com' className="ant-anchor-link">Logout</a>
                 </Popconfirm> :
-                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/login">Login</NavLink>}
+                    <NavLink className="ant-anchor-link" to="/login">Login</NavLink>}
             </div>
             <div className="sidebarMobileVisible">
                 <Navbar />
             </div>
-
         </aside>
     );
 };

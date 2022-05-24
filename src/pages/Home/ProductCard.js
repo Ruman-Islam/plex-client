@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
                     <h3 className='text-base-100 text-lg italic font-bold'>Minimum Order: {minimumOrder}</h3>
                     <h3 className='text-base-100 text-lg italic font-bold'>Available: {availableQuantity}</h3>
                     <button className="btn btn-primary px-12 rounded">
-                        <Link to={`/admin/book/${_id}`}>
+                        <Link to={`/dashboard/purchase/${_id}`}>
                             <span className='text-base-100 text-lg font-semibold'>ORDER NOW</span>
                         </Link>
                     </button>
