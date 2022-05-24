@@ -51,7 +51,7 @@ const Navbar = () => {
                     <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
                     <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/dashboard">Dashboard</NavLink>
                     {user ? <Popconfirm
-                        placement="bottom"
+                        placement="bottomRight"
                         title="Are you sure want to logout?"
                         onConfirm={async () => {
                             await signOut(auth)
@@ -59,9 +59,10 @@ const Navbar = () => {
                         }}
                         okText="Logout"
                         cancelText="Cancel">
-                        <a href='www.facebook.com' className={`ant-anchor-link text-white ${navbar && 'text-black'}`}>Logout</a>
+                        <span className={`ant-anchor-link text-white cursor-pointer ${navbar && 'text-black'}`}>Logout</span>
                     </Popconfirm> :
                         <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/login">Login</NavLink>}
+                    {user && <span className='text-white'>{user?.displayName}</span>}
                 </div>
                 <div className="mobileVisible relative left-20">
                     <>

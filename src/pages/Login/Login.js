@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Divider } from 'antd';
+import { Divider, message } from 'antd';
 import Spinner from '../../components/shared/Spinner';
 import auth from '../../firebase/firebaseConfig';
 import LoginBox from './LoginBox';
@@ -21,6 +21,7 @@ const Login = () => {
     ] = useSignInWithEmailAndPassword(auth);
 
     useEffect(() => {
+        if (error) message.error(error?.message.split('/')[1].split(')')[0]);
         if (user) navigate(from, { replace: true });
     }, [user, error, from, navigate]);
 

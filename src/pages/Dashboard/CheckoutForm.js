@@ -157,7 +157,7 @@ const CheckoutForm = ({ product }) => {
                     className='border p-4 mt-3 rounded-lg'
                 />
                 <button
-                    className='mt-4 bg-[#1890FF] px-10 py-1 text-white text-lg uppercase rounded'
+                    className='mt-4 btn btn-info px-10 text-white text-lg uppercase rounded'
                     type="submit"
                     disabled={!stripe || !clientSecret}>
                     pay now

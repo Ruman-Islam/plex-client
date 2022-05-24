@@ -1,5 +1,5 @@
 import { RollbackOutlined } from '@ant-design/icons';
-import { Divider } from 'antd';
+import { Divider, message } from 'antd';
 import React, { useEffect } from 'react';
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -30,9 +30,8 @@ const Register = () => {
         //         navigate(from, { replace: true });
         //     }
         // }
-        if (user) {
-            navigate(from, { replace: true });
-        }
+        if (error) message.error(error?.message.split('/')[1].split(')')[0]);
+        if (user) navigate(from, { replace: true });
     }, [user, error, from, navigate]);
 
     return (

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { message } from 'antd';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Spinner from '../../components/shared/Spinner';
@@ -9,13 +10,12 @@ const SocialLogin = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || "/";
 
-    const [signInWithGoogle, googleUser, loading,] = useSignInWithGoogle(auth);
+    const [signInWithGoogle, googleUser, loading, error] = useSignInWithGoogle(auth);
 
     useEffect(() => {
-        if (googleUser) {
-            navigate(from, { replace: true });
-        }
-    }, [googleUser, navigate, from]);
+        if (error) message.error(error?.message.split('/')[1].split(')')[0]);
+        if (googleUser) navigate(from, { replace: true });
+    }, [googleUser, error, navigate, from]);
 
     if (loading) {
         return <Spinner />

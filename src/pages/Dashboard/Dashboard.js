@@ -9,7 +9,7 @@ const Dashboard = () => {
                 <Sidebar />
             </div>
             <div className='bg-slate-50 flex flex-col w-full p-5'>
-                <div className='p-10 border shadow-lg bg-white'>
+                <div className='p-10 border shadow-lg bg-white h-[96vh] flex justify-center items-center'>
                     <Outlet />
                 </div>
             </div>
