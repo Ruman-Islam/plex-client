@@ -16,7 +16,7 @@ const Sidebar = () => {
                     <span className='flex justify-center my-5 text-3xl'>PL<AiOutlineMenu className='text-primary' />X</span>
                 </NavLink>
             </div>
-            <div className="sidebarMobileHidden w-48">
+            <div className="sidebarMobileHidden w-56">
                 <NavLink className="ant-anchor-link" to="/home">Home</NavLink>
                 {user ? <Popconfirm
                     placement="bottomRight"

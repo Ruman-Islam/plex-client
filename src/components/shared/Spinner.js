@@ -1,9 +1,9 @@
 import React from 'react';
 import { Space, Spin } from 'antd';
 
-const Spinner = () => {
+const Spinner = ({ margin }) => {
     return (
-        <div className='w-16 mx-auto flex justify-center'>
+        <div className={`w-16 mx-auto flex justify-center my-${margin}`}>
             <Space size="middle">
                 <Spin size="medium" />
             </Space>

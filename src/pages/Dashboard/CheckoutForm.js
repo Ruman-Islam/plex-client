@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../firebase/firebaseConfig';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Spinner from '../../components/shared/Spinner';
 import { message } from 'antd';
 
-const CheckoutForm = ({ purchaseInfo }) => {
+const CheckoutForm = ({ product }) => {
+    const [user, ,] = useAuthState(auth);
     const stripe = useStripe();
     const elements = useElements();
     const [cardError, setCardError] = useState('');
@@ -11,17 +14,17 @@ const CheckoutForm = ({ purchaseInfo }) => {
     const [loading, setLoading] = useState(false);
     const [transactionId, setTransactionId] = useState('');
     const [clientSecret, setClientSecret] = useState('');
-    const { _id, price, name, email, address, phone } = purchaseInfo;
+    const { _id, productPrice, minimumOrder, availableQuantity } = product;
 
 
     useEffect(() => {
-        if (price) {
+        if (productPrice) {
             fetch('http://localhost:5000/create-payment-intent', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
                 },
-                body: JSON.stringify({ price })
+                body: JSON.stringify({ price: productPrice })
             })
                 .then(res => res.json())
                 .then(data => {
@@ -30,17 +33,24 @@ const CheckoutForm = ({ purchaseInfo }) => {
                     }
                 })
         }
-    }, [price])
+    }, [productPrice])
 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true);
-        if (!address || !phone) {
-            (() => {
-                message.error('Address or phone is required');
-                setLoading(false);
-            })()
+        if (!event.target.address.value || !event.target.phone.value) {
+            message.error('Address & phone is required');
+            setLoading(false);
+            return;
+        }
+
+        if (event.target.productQuantity.value < minimumOrder) {
+            message.error(`Minimum order value ${minimumOrder}`);
+            return;
+        }
+
+        if (event.target.productQuantity.value > availableQuantity) {
+            message.error(`you have exceeded limit of order ${availableQuantity}`);
             return;
         }
 
@@ -64,6 +74,7 @@ const CheckoutForm = ({ purchaseInfo }) => {
         } else {
             setCardError('');
         }
+        setLoading(true);
         setSuccess('');
 
 
@@ -74,8 +85,8 @@ const CheckoutForm = ({ purchaseInfo }) => {
                 payment_method: {
                     card: card,
                     billing_details: {
-                        name: name,
-                        email: email
+                        name: user?.displayName,
+                        email: user?.email
                     },
                 },
             },
@@ -88,13 +99,17 @@ const CheckoutForm = ({ purchaseInfo }) => {
             setLoading(false);
             setCardError('');
             setTransactionId(paymentIntent.id);
-            console.log(paymentIntent);
             setSuccess('Congrats! Your payment is completed.');
 
             // store payment on database
             const payment = {
-                appointment: _id,
-                transactionId: paymentIntent.id
+                product: _id,
+                transactionId: paymentIntent.id,
+                name: event.target.name.value,
+                email: event.target.email.value,
+                address: event.target.address.value,
+                phone: event.target.phone.value,
+                productQuantity: event.target.productQuantity.value
             }
             fetch(`http://localhost:5000/booking/${_id}`, {
                 method: 'PATCH',
@@ -113,27 +128,42 @@ const CheckoutForm = ({ purchaseInfo }) => {
     return (
         <>
             <form className='border py-5 rounded-lg px-10' onSubmit={handleSubmit}>
+                <div className='flex flex-col'>
+                    <div className='flex flex-col'>
+                        <label className='text-xl'>Name:</label>
+                        <input name='name' value={user.displayName}
+                            disabled className='text-lg text-slate-500 font-semibold bg-slate-100 p-2 px-5 my-1 rounded-lg' />
+                        <label className='text-xl'>Email:</label>
+                        <input name='email' value={user.email}
+                            disabled className='text-lg text-slate-500 font-semibold bg-slate-100 p-2 px-5 my-1 rounded-lg' />
+                        <label className='text-xl'>Address:</label>
+                        <input
+                            name='address'
+                            className='text-lg font-semibold bg-slate-100 p-2 px-5 my-1 rounded-lg outline-none' />
+                        <label className='text-xl'>Phone:</label>
+                        <input
+                            name='phone'
+                            type="number"
+                            className='text-lg font-semibold bg-slate-100 p-2 px-5 my-1 rounded-lg outline-none' />
+                        <label className='text-xl'>Minimum Order</label>
+                        <input
+                            name='productQuantity'
+                            type="number"
+                            defaultValue={minimumOrder}
+                            className='text-lg font-semibold bg-slate-100 p-2 px-5 my-1 rounded-lg outline-none' />
+                    </div>
+                </div>
                 <CardElement
-                    options={{
-                        style: {
-                            base: {
-                                fontSize: '20px',
-                                color: '#424770',
-                                '::placeholder': {
-                                    color: '#aab7c4',
-                                },
-                            },
-                            invalid: {
-                                color: '#9e2146',
-                            },
-                        },
-                    }}
+                    className='border p-4 mt-3 rounded-lg'
                 />
-                <button className='btn btn-sm mt-4 bg-white px-5 text-success text-xl' type="submit" disabled={!stripe || !clientSecret}>
-                    Pay
+                <button
+                    className='mt-4 bg-[#1890FF] px-10 py-1 text-white text-lg uppercase rounded'
+                    type="submit"
+                    disabled={!stripe || !clientSecret}>
+                    pay now
                 </button>
             </form>
-            {loading && <Spinner />}
+            {loading && <Spinner margin='5' />}
             {cardError && <p className='text-red-500'>{cardError}</p>}
             {success && <div className='text-green-500'>
                 <p>{success}</p>
