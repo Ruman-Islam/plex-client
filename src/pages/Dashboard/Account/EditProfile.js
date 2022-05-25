@@ -3,9 +3,8 @@ import { useAuthState, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Avatar, message } from 'antd';
 import auth from '../../../firebase/firebaseConfig';
-// import { useNavigate } from 'react-router-dom';
 import Spinner from '../../../components/shared/Spinner';
-
+import { useQuery } from 'react-query';
 
 const EditProfile = () => {
     const imageStorageKey = '4ae31085e7494be569a28241773ffa30';
@@ -13,12 +12,16 @@ const EditProfile = () => {
     const [image, setImage] = useState('');
     const [imageURL, setImageURL] = useState({});
     const [updateProfile, ,] = useUpdateProfile(auth);
-    // const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
 
-    useEffect(() => {
-        setImage(user.photoURL)
-    }, [user]);
+    const url = `http://localhost:5000/get-userInfo?email=${user.email}`;
+    const { data, isLoading } = useQuery(['editProfile', user], () => fetch(url, {
+        method: 'GET'
+    }).then(res => {
+        return res.json()
+    }))
+
+    useEffect(() => setImage(user.photoURL), [user]);
 
     const changeImage = e => {
         setImage(URL.createObjectURL(e.target.files[0]));
@@ -70,7 +73,7 @@ const EditProfile = () => {
             })
     };
 
-    if (loading) {
+    if (isLoading || loading) {
         return <Spinner margin="80" />
     }
     if (error) {
@@ -124,7 +127,7 @@ const EditProfile = () => {
                             <input
                                 className='outline-0 cursor-not-allowed w-full
                                  rounded-2xl border px-3 mr-10 py-1 border-[#1890ff] my-1'
-                                defaultValue={user.email}
+                                defaultValue={data?.result?.email} disabled
                                 name="email" id='email' type="email" {...register("email")} />
                         </div>
 
@@ -132,35 +135,32 @@ const EditProfile = () => {
                             <label htmlFor="phone">Phone</label>
                             <input
                                 className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
-                                name="phone" id='phone' type="text" {...register("phone")} />
+                                name="phone" id='phone' type="text"
+                                defaultValue={data?.result?.userInfo?.phone}
+                                {...register("phone")} />
                         </div>
 
                         <div className='mt-5'>
-                            {/* <select
-                                className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-2'
-                                placeholder='Last name' defaultValue={user.displayName.split(' ')[1]}
-                                name="education" id='education' type="text" {...register("education")} />
-                            </select> */}
                             <label htmlFor="education">Select your Education level</label>
                             <select
-                                defaultValue=""
                                 className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
                                 name="education" id="education"
+                                defaultValue={data?.result?.userInfo?.education}
                                 {...register("education")}>
-                                <option disabled>Choose here</option>
                                 <option value="JSC/JDC/8 Pass">JSC/JDC/8 Pass</option>
                                 <option value="Secondary">Secondary</option>
                                 <option value="Higher Secondary">Higher Secondary</option>
                                 <option value="Diploma">Diploma</option>
-                                <option value="Bachelor">Bachelor/Honors</option>
+                                <option value="Bachelor/Honors">Bachelor/Honors</option>
                                 <option value="Masters">Masters</option>
-                                <option value="PhD">PhD (Doctor of Philosophy)</option>
+                                <option value="PhD (Doctor of Philosophy)">PhD (Doctor of Philosophy)</option>
                             </select>
                         </div>
 
                         <div className='mt-5'>
                             <label htmlFor="city">City/state</label>
                             <input
+                                defaultValue={data?.result?.userInfo?.location}
                                 className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
                                 name="city" id='city' type="text" {...register("city")} />
                         </div>
@@ -168,6 +168,7 @@ const EditProfile = () => {
                         <div className='mt-5'>
                             <label htmlFor="city">LinkIn Profile Link</label>
                             <input
+                                defaultValue={data?.result?.userInfo?.linkedIn}
                                 className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
                                 name="linkedIn" id='linkedIn' type="text" {...register("linkedIn")} />
                         </div>

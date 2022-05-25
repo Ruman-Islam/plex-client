@@ -1,12 +1,40 @@
+import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import auth from '../../firebase/firebaseConfig';
-import { Table, Popconfirm } from 'antd';
-import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
+import auth from '../../firebase/firebaseConfig';
 import Spinner from '../../components/shared/Spinner';
+import { Popconfirm, Table } from 'antd';
+import { Link } from 'react-router-dom';
 
-const MyOrders = () => {
+
+const AllUser = () => {
     const [user, ,] = useAuthState(auth);
+    const url = `http://localhost:5000/all-user?email=${user.email}`;
+    const { data: { users } = {}, isLoading, refetch } = useQuery(['all-user', user], () => fetch(url, {
+        method: 'GET',
+        headers: {
+            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+    }).then(res => res.json()))
+
+    const handleCancelOrder = id => {
+        fetch(`http://localhost:5000/delete-order/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.deletedCount > 0) {
+                    refetch();
+                }
+            })
+    }
+
+    if (isLoading) {
+        return <Spinner />
+    }
 
     const columns = [
         {
@@ -71,36 +99,13 @@ const MyOrders = () => {
         },
     ];
 
-    const url = `http://localhost:5000/user/my-orders?email=${user.email}`;
-    const { data: { orders } = {}, isLoading, refetch } = useQuery(['my-orders', user], () => fetch(url, {
-        method: 'GET',
-    }).then(res => res.json()))
-
-    const handleCancelOrder = id => {
-        fetch(`http://localhost:5000/delete-order/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.deletedCount > 0) {
-                    refetch();
-                }
-            })
-    }
-
-    if (isLoading) {
-        return <Spinner />
-    }
 
     return (
         <div>
-            <h1>My Orders</h1>
-            <Table columns={columns} dataSource={orders} />
+            <h1>All users {users?.length}</h1>
+            <Table columns={columns} dataSource={users} />
         </div>
     );
 };
 
-export default MyOrders;
+export default AllUser;

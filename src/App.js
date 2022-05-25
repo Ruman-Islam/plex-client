@@ -15,6 +15,9 @@ import MyOrders from './pages/Dashboard/MyOrders';
 import AddReview from './pages/Dashboard/AddReview/AddReview';
 import EditProfile from './pages/Dashboard/Account/EditProfile';
 import ProductDetails from './pages/ProductDetail/ProductDetails';
+import AdminRoute from './authentication/AdminRoute';
+import AllUser from './pages/AllUser/AllUser';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   return (
@@ -38,7 +41,13 @@ function App() {
           <Route path='profile' element={<MyProfile />} />
           <Route path='edit-profile' element={<EditProfile />} />
           <Route path='add-review' element={<AddReview />} />
+          <Route path='all-user' element={
+            <AdminRoute>
+              <AllUser />
+            </AdminRoute>}
+          />
         </Route>
+        <Route path='*' element={<NotFound />} />
       </Routes>
       {/* <Footer /> */}
     </div>

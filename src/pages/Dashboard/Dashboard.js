@@ -6,16 +6,19 @@ import {
     EditOutlined,
     UserOutlined,
     SettingOutlined,
+    UsergroupAddOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Space } from 'antd';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase/firebaseConfig';
+import useAdmin from '../../hooks/useAdmin';
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 const Dashboard = () => {
     const [user, ,] = useAuthState(auth);
+    const { admin } = useAdmin(user);
 
     return (
         <Layout>
@@ -35,24 +38,43 @@ const Dashboard = () => {
                     theme="dark"
                     mode="inline"
                 >
+
+                    {(user && !admin) &&
+                        <>
+                            <Menu.Item key='1' icon={<PieChartOutlined />}>
+                                <NavLink to='my-orders'>My Orders</NavLink>
+                            </Menu.Item>
+                            <Menu.Item key='2' icon={<DesktopOutlined />}>
+                                <NavLink to='add-review'>Add Review</NavLink>
+                            </Menu.Item>
+                        </>}
+
+                    {(admin && user) &&
+                        <SubMenu key='sub1' icon={<MailOutlined />} title='Admin'>
+                            <Menu.Item key='3' icon={<UsergroupAddOutlined />}>
+                                <NavLink to='all-user'>All users</NavLink>
+                            </Menu.Item>
+                            <Menu.Item key='4' icon={<UsergroupAddOutlined />}>
+                                <NavLink to='manage-orders'>Manage Orders</NavLink>
+                            </Menu.Item>
+                            <Menu.Item key='5' icon={<UsergroupAddOutlined />}>
+                                <NavLink to='add-product'>Add Product</NavLink>
+                            </Menu.Item>
+                            <Menu.Item key='6' icon={<UsergroupAddOutlined />}>
+                                <NavLink to='manage-product'>Manage Products</NavLink>
+                            </Menu.Item>
+                            <Menu.Item key='7' icon={<UsergroupAddOutlined />}>
+                                <NavLink to='make-admin'>Make Admin</NavLink>
+                            </Menu.Item>
+                        </SubMenu>}
+
                     <SubMenu key='sub2' icon={<SettingOutlined />} title='Account'>
-                        <Menu.Item key='1' icon={<UserOutlined />}>
+                        <Menu.Item key='9' icon={<UserOutlined />}>
                             {user && <NavLink to='profile'>Profile</NavLink>}
                         </Menu.Item>
-                        <Menu.Item key='2' icon={<EditOutlined />}>
+                        <Menu.Item key='10' icon={<EditOutlined />}>
                             {user && <NavLink to='edit-profile'>Edit</NavLink>}
                         </Menu.Item>
-                    </SubMenu>
-                    <Menu.Item key='3' icon={<PieChartOutlined />}>
-                        {user && <NavLink to='my-orders'>My Orders</NavLink>}
-                    </Menu.Item>
-                    <Menu.Item key='4' icon={<DesktopOutlined />}>
-                        {user && <NavLink to='add-review'>Add Review</NavLink>}
-                    </Menu.Item>
-                    <SubMenu key='sub1' icon={<MailOutlined />} title='Admin'>
-                        {/* <Menu.Item key='5' icon={<ContainerOutlined />}>
-                            {user && <NavLink to='my-profile'>Profile</NavLink>}
-                        </Menu.Item> */}
                     </SubMenu>
                 </Menu>
             </Sider>

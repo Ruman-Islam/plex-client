@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
 import { Carousel } from 'antd';
 import img1 from '../../assets/images/IDC-Saas-Award-ERP-color.webp';
 import Rating from 'react-rating';
 import { StarFilled, StarOutlined } from '@ant-design/icons';
-
+import { useQuery } from 'react-query';
 
 const contentStyle = {
     background: '#F2F3F3',
@@ -11,23 +10,19 @@ const contentStyle = {
 };
 
 const Review = () => {
-    const [reviews, setReviews] = useState([]);
+    const url = 'http://localhost:5000/get-review';
+    const { data: { reviews } = {} } = useQuery('getReview', () => fetch(url, {
+        method: 'GET'
+    }).then(res => res.json()))
 
-    useEffect(() => {
-        fetch('http://localhost:5000/get-review')
-            .then(res => res.json())
-            .then(data => {
-                console.log(data.reviews);
-                setReviews(data.reviews);
-            })
-    }, [])
 
     return (
         <div className='border border-black w-10/10 xl:w-8/12 xl:mx-auto my-20 mx-2'>
             <Carousel autoplay>
-                {reviews.map(review =>
-                    <>
-                        <div style={contentStyle} className='p-10 xl:p-20 flex flex-col xl:flex-row justify-center h-full'>
+                {reviews?.map((review, index) =>
+                    <div key={index}>
+                        <div style={contentStyle}
+                            className='p-10 xl:p-20 flex flex-col xl:flex-row justify-center h-full'>
                             <div className='text-black xl:flex-1 flex flex-col'>
                                 <span className='text-xl'>{review.date}</span>
                                 <h1 className='text-4xl uppercase'>{review.companyTitle}</h1>
@@ -47,8 +42,7 @@ const Review = () => {
                                 <img className='w-full' src={img1} alt="" />
                             </div>
                         </div>
-                    </>)}
-
+                    </div>)}
             </Carousel>
         </div>
     );

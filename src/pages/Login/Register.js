@@ -5,6 +5,7 @@ import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-fireb
 import { useLocation, useNavigate } from 'react-router-dom';
 import Spinner from '../../components/shared/Spinner';
 import auth from '../../firebase/firebaseConfig';
+import useToken from '../../hooks/useToken';
 import RegisterBox from './RegisterBox';
 import SocialLogin from './SocialLogin';
 
@@ -21,6 +22,7 @@ const Register = () => {
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, ,] = useUpdateProfile(auth);
+    const { token } = useToken(user);
 
     useEffect(() => {
         // if (user) {
@@ -30,9 +32,10 @@ const Register = () => {
         //         navigate(from, { replace: true });
         //     }
         // }
+        if (token) navigate(from, { replace: true });
+        console.log(token);
         if (error) message.error(error?.message.split('/')[1].split(')')[0]);
-        if (user) navigate(from, { replace: true });
-    }, [user, error, from, navigate]);
+    }, [token, error, from, navigate]);
 
     return (
         <div className='h-[120vh] 2xl:h-screen flex flex-col justify-center items-center login'>

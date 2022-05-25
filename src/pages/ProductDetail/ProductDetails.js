@@ -58,7 +58,7 @@ const ProductDetails = () => {
         <>
             <Navbar background="white" font="black" />
             <div id='product-detail' className='page-container'>
-                {loading ? <Spinner margin="80" /> :
+                {loading ? <Spinner /> :
                     <div className='flex justify-center items-center 2xl:items-start text-center 2xl:text-left
                      flex-col 2xl:flex-row py-24 2xl:py-44 content-wrap'>
                         <div className='w-56 2xl:w-4/12 shrink-0'>

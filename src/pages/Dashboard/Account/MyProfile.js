@@ -13,14 +13,13 @@ const MyProfile = () => {
         fetch(`http://localhost:5000/get-userInfo?email=${user.email}`)
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 setUserInfo(data.result)
             })
     }, [user])
 
     return (
-        <div className='w-8/12 mx-auto p-5 bg-sky-100 rounded-lg'>
-            <div className='flex items-center flex-col 2xl:flex-row justify-center h-[50vh]'>
+        <div className='w-full xl:w-8/12 mx-auto p-5 bg-sky-100 rounded-lg'>
+            <div className='flex items-center flex-col 2xl:flex-row justify-center h-[70vh] xl:h-[50vh]'>
                 <Avatar shape="rounded" size={{
                     xs: 120,
                     sm: 32,

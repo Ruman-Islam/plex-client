@@ -7,6 +7,7 @@ import auth from '../../firebase/firebaseConfig';
 import LoginBox from './LoginBox';
 import SocialLogin from './SocialLogin';
 import { RollbackOutlined } from '@ant-design/icons';
+import useToken from '../../hooks/useToken';
 import './login.css';
 
 const Login = () => {
@@ -19,11 +20,12 @@ const Login = () => {
         signInWithEmailAndPassword,
         user, loading, error,
     ] = useSignInWithEmailAndPassword(auth);
+    const { token } = useToken(user);
 
     useEffect(() => {
+        if (token) navigate(from, { replace: true });
         if (error) message.error(error?.message.split('/')[1].split(')')[0]);
-        if (user) navigate(from, { replace: true });
-    }, [user, error, from, navigate]);
+    }, [token, error, from, navigate]);
 
 
     return (

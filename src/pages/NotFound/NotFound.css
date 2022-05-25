@@ -1,0 +1,63 @@
+.not-found-container {
+    min-height: 100vh;
+    min-width: 99vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.not-found-container h1{
+    font-size: 70px;
+}
+.not-found-container h6{
+    font-size: 20px;
+}
+.error-background {
+    flex: 1;
+}
+
+.error-content {
+    flex: 2;
+}
+
+.error-back-button button {
+    width: 100%;
+    border: 0;
+    background-color: lightslategray;
+    padding: 10px 0;
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.not-found-container button:hover {
+    background-color: rgba(119, 136, 153, 0.473);
+}
+
+
+/* ........... Mobile device responsive ............. */
+/* .................................................... */
+@media screen and (max-width: 576px) {
+    .not-found-container {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    .not-found-container img {
+        margin-top: 50px;
+       width: 300px;
+    }
+    .not-found-container h1{
+        font-size: 30px;
+    }
+    .error-back-button {
+        margin-bottom: -50px;
+    }
+}
+/* ........... Mobile device responsive ............. */
+/* .................................................... */
