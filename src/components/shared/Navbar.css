@@ -1,15 +1,14 @@
 nav {
-    background-color: rgba(0, 0, 0, 0.5);
     height: 120px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.scroll {
+/* .scroll {
     background-color: rgba(0, 0, 0, 0.5);
     color: black !important;
-}
+} */
 
 .scroll-up {
     transform: translateY(-120px);

@@ -12,7 +12,7 @@ import Footer from '../../components/shared/Footer';
 const Home = () => {
     return (
         <div>
-            <Navbar />
+            <Navbar background="transparent" font="white" />
             <Hero />
             <Slider />
             <Products />

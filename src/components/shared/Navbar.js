@@ -9,7 +9,7 @@ import auth from '../../firebase/firebaseConfig';
 import './Navbar.css';
 
 
-const Navbar = () => {
+const Navbar = ({ background, font }) => {
     const logo = <div className="logo">
         <span className='flex items-center text-2xl'>PL<AiOutlineMenu className='text-primary' />X</span>
     </div>
@@ -36,20 +36,20 @@ const Navbar = () => {
     };
 
     return (
-        <nav className={`fixed w-full z-50 ${navbar === 5 ? 'scroll-up' : 'scroll duration-500 shadow-lg'}`}>
+        <nav className={`fixed w-full z-50 bg-${background} ${navbar === 5 ? 'scroll-up' : 'scroll duration-500 shadow-lg'}`}>
             <div className="header">
                 <div className="logo">
-                    <NavLink className={`text-white hover:text-white ${navbar && 'text-black hover:text-black'}`} to="/">
+                    <NavLink className={`text-${font} hover:text-white ${navbar && 'text-black hover:text-black'}`} to="/">
                         <span className='flex items-center text-4xl xl:text-5xl'>PL<AiOutlineMenu className='text-primary' />X</span>
                     </NavLink>
                 </div>
                 <div className="mobileHidden">
-                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/home">Home</NavLink>
-                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    {user && <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/dashboard">Dashboard</NavLink>}
+                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/home">Home</NavLink>
+                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
+                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
+                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
+                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
+                    {user && <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/dashboard">Dashboard</NavLink>}
                     {user ? <Popconfirm
                         placement="bottomRight"
                         title="Are you sure want to logout?"
@@ -59,10 +59,10 @@ const Navbar = () => {
                         }}
                         okText="Logout"
                         cancelText="Cancel">
-                        <span className={`ant-anchor-link text-white cursor-pointer ${navbar && 'text-black'}`}>Logout</span>
+                        <span className={`ant-anchor-link text-${font} cursor-pointer ${navbar && 'text-black'}`}>Logout</span>
                     </Popconfirm> :
-                        <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/login">Login</NavLink>}
-                    {user && <span className='text-white'>{user?.displayName}</span>}
+                        <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/login">Login</NavLink>}
+                    {user && <span className={`text-${font}`}>{user?.displayName}</span>}
                 </div>
                 <div className="mobileVisible relative left-20">
                     <>

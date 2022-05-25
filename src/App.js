@@ -14,6 +14,7 @@ import MyProfile from './pages/Dashboard/Account/MyProfile';
 import MyOrders from './pages/Dashboard/MyOrders';
 import AddReview from './pages/Dashboard/AddReview';
 import EditProfile from './pages/Dashboard/Account/EditProfile';
+import ProductDetails from './pages/ProductDetail/ProductDetails';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/products' element={<Products />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
+        <Route path='/product-details/:id' element={<ProductDetails />} />
         <Route path="/dashboard" element={
           <PrivateRoute>
             <Dashboard />
