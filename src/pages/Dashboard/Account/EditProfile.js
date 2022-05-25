@@ -3,7 +3,7 @@ import { useAuthState, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Avatar, message } from 'antd';
 import auth from '../../../firebase/firebaseConfig';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import Spinner from '../../../components/shared/Spinner';
 
 
@@ -13,10 +13,12 @@ const EditProfile = () => {
     const [image, setImage] = useState('');
     const [imageURL, setImageURL] = useState({});
     const [updateProfile, ,] = useUpdateProfile(auth);
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { register, handleSubmit } = useForm();
 
-    useEffect(() => setImage(user.photoURL), [user]);
+    useEffect(() => {
+        setImage(user.photoURL)
+    }, [user]);
 
     const changeImage = e => {
         setImage(URL.createObjectURL(e.target.files[0]));
@@ -24,28 +26,50 @@ const EditProfile = () => {
     };
 
     const onSubmit = async data => {
+
+        const userInfo = {
+            name: data.firstName + ' ' + data.lastName,
+            email: user.email,
+            phone: data.phone,
+            education: data.education,
+            location: data.city,
+            linkedIn: data.linkedIn
+        }
+
         const fullName = data.firstName + ' ' + data.lastName
         const formData = new FormData();
-        console.log(imageURL);
         formData.append('image', imageURL);
+
         const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`
-        fetch(url, {
-            method: 'POST',
-            body: formData
+        if (imageURL.name) {
+            fetch(url, {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => res.json())
+                .then(async (result) => {
+                    if (result.success) {
+                        await updateProfile({ photoURL: result.data.url })
+                    }
+                })
+        }
+
+        fetch(`http://localhost:5000/add-userInfo?email=${user.email}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(userInfo)
         })
             .then(res => res.json())
-            .then(async (result) => {
-                if (result.success) {
-                    await updateProfile({ displayName: fullName, photoURL: result.data.url })
+            .then(async (data) => {
+                if (data.success) {
+                    await updateProfile({ displayName: fullName })
                     message.success('Information updated!');
-                    navigate('/dashboard/profile');
-                } else {
-                    await updateProfile({ displayName: fullName, photoURL: image })
-                    message.success('Information updated!');
-                    navigate('/dashboard/profile');
                 }
             })
     };
+
     if (loading) {
         return <Spinner margin="80" />
     }
@@ -54,14 +78,14 @@ const EditProfile = () => {
     }
 
     return (
-        <div className='xl:w-8/12'>
+        <div className='xl:w-8/12 mx-auto border p-2'>
             <h1 className='text-2xl mb-5'>Account Settings</h1>
             <form className='flex flex-col p-5 rounded-lg' onSubmit={handleSubmit(onSubmit)}>
-                <div className='flex justify-start'>
+                <div className='flex justify-start flex-col xl:flex-row'>
                     <div className='flex flex-col'>
                         <Avatar
                             size={{
-                                xs: 24,
+                                xs: 120,
                                 sm: 32,
                                 md: 40,
                                 lg: 64,
@@ -76,30 +100,78 @@ const EditProfile = () => {
                             type="file" name="image" id="" />
                     </div>
                     <div>
-                        <div>
-                            <label htmlFor="first-name">First Name</label>
-                            <input
-                                className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-2'
-                                placeholder='First Name' defaultValue={user.displayName.split(' ')[0]}
-                                name="first-name" id='first-name' type="text" {...register("firstName")} />
+                        <div className='flex justify-between flex-col xl:flex-row'>
+                            <div>
+                                <label htmlFor="first-name">First Name</label>
+                                <input
+                                    className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
+                                    placeholder='First Name' defaultValue={user.displayName.split(' ')[0]}
+                                    name="first-name" id='first-name' type="text" {...register("firstName")} />
+                            </div>
+                            <div>
+                                <label htmlFor="last-name">Last Name</label>
+                                <input
+                                    className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
+                                    placeholder='Last name' defaultValue={user.displayName.split(' ')[1]}
+                                    name="last-name" id='last-name' type="text" {...register("lastName")} />
+                            </div>
                         </div>
-                        <div>
-                            <label htmlFor="last-name">Last Name</label>
-                            <input
-                                className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-2'
-                                placeholder='Last name' defaultValue={user.displayName.split(' ')[1]}
-                                name="last-name" id='last-name' type="text" {...register("lastName")} />
-                        </div>
-                        <div>
+
+                        <div className='mt-5'>
                             <label htmlFor="email">Email Address
                                 <span className='text-slate-500 ml-1'>(Email Address cannot be changed)</span>
                             </label>
                             <input
                                 className='outline-0 cursor-not-allowed w-full
-                                 rounded-2xl border px-3 mr-10 py-1 border-[#1890ff] my-2'
-                                placeholder='Email' value={user.email} disabled readOnly
+                                 rounded-2xl border px-3 mr-10 py-1 border-[#1890ff] my-1'
+                                defaultValue={user.email}
                                 name="email" id='email' type="email" {...register("email")} />
                         </div>
+
+                        <div className='mt-5'>
+                            <label htmlFor="phone">Phone</label>
+                            <input
+                                className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
+                                name="phone" id='phone' type="text" {...register("phone")} />
+                        </div>
+
+                        <div className='mt-5'>
+                            {/* <select
+                                className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-2'
+                                placeholder='Last name' defaultValue={user.displayName.split(' ')[1]}
+                                name="education" id='education' type="text" {...register("education")} />
+                            </select> */}
+                            <label htmlFor="education">Select your Education level</label>
+                            <select
+                                defaultValue=""
+                                className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
+                                name="education" id="education"
+                                {...register("education")}>
+                                <option disabled>Choose here</option>
+                                <option value="JSC/JDC/8 Pass">JSC/JDC/8 Pass</option>
+                                <option value="Secondary">Secondary</option>
+                                <option value="Higher Secondary">Higher Secondary</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Bachelor">Bachelor/Honors</option>
+                                <option value="Masters">Masters</option>
+                                <option value="PhD">PhD (Doctor of Philosophy)</option>
+                            </select>
+                        </div>
+
+                        <div className='mt-5'>
+                            <label htmlFor="city">City/state</label>
+                            <input
+                                className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
+                                name="city" id='city' type="text" {...register("city")} />
+                        </div>
+
+                        <div className='mt-5'>
+                            <label htmlFor="city">LinkIn Profile Link</label>
+                            <input
+                                className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
+                                name="linkedIn" id='linkedIn' type="text" {...register("linkedIn")} />
+                        </div>
+
                         <div className='text-right'>
                             <input type="submit" value="Save changes"
                                 className='btn w-44 my-3 cursor-pointer hover:bg-sky-400 bg-[#1890ff] rounded-3xl text-base-100' />

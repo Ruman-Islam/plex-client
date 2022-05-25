@@ -33,7 +33,7 @@ const Review = () => {
                                 <h1 className='text-4xl uppercase'>{review.companyTitle}</h1>
                                 <h1 className='text-xl uppercase'>{review.name}</h1>
                                 <div className='w-8/12 h-20'>
-                                    <p className='text-md text-slate-500 break-all'>{review.text.slice(0, 150)}</p>
+                                    <p className='text-md text-slate-500 break-all'>{review.text.slice(0, 140)}</p>
                                 </div>
                                 <Rating
                                     className='text-lg text-amber-400 2xl:my-2'
@@ -43,7 +43,7 @@ const Review = () => {
                                     readonly>
                                 </Rating>
                             </div>
-                            <div className='w-56 h-36 xl:flex-auto'>
+                            <div className='w-56 h-36 xl:flex-auto hidden xl:block'>
                                 <img className='w-full' src={img1} alt="" />
                             </div>
                         </div>
