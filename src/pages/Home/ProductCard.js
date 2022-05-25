@@ -20,11 +20,11 @@ const ProductCard = ({ product }) => {
                     <h3 className='text-base-100 text-lg italic font-bold'>Price P/U: {productPrice} $</h3>
                     <h3 className='text-base-100 text-lg italic font-bold'>Minimum Order: {minimumOrder}</h3>
                     <h3 className='text-base-100 text-lg italic font-bold'>Available: {availableQuantity}</h3>
-                    <button className="btn btn-primary px-12 rounded">
-                        <Link to={`/product-details/${_id}`}>
-                            <span className='text-base-100 text-lg font-semibold'>DETAIL</span>
-                        </Link>
-                    </button>
+                    <Link
+                        to={`/product-details/${_id}`}
+                        className="btn btn-primary px-12 rounded">
+                        <span className='text-base-100 text-lg font-semibold'>DETAIL</span>
+                    </Link>
                 </div>
                 <div className="overlay text-center">
                     <div className="icon mb-2">

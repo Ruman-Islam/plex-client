@@ -49,7 +49,7 @@ const ProductDetails = () => {
                 if (result.success) {
                     navigate(`/dashboard/purchase/${id}`)
                 } else {
-                    message.error('you have not paid for this product yet')
+                    message.error('You have already purchased this product')
                 }
             })
     }

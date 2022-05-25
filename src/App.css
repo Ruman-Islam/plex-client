@@ -154,6 +154,23 @@
 /* .................................................... */
 
 
+/* Star radio button */
+input[type="radio"]{
+  display: none;
+}
+.star{
+  cursor: pointer;
+  transition: color 200ms;
+  color: #1890ff;
+}
+.star-gray {
+  color: #e4e5e9;
+}
+.star-yellow {
+  color: #ffc107;
+}
+
+
 @media only screen and (max-width: 767px) {
   .pricingBlock .ant-row > div:nth-child(2) .ant-list-item {
     transform: scale(1);

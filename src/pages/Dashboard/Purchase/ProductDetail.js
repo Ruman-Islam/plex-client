@@ -5,7 +5,7 @@ const ProductDetail = ({ product }) => {
     return (
         <div className='flex flex-col 2xl:flex-row'>
             <div className='w-56 2xl:w-96 shrink-0'>
-                <img className='w-full h-full object-fill' src={product.productImage} alt="" />
+                <img className='w-full' src={product.productImage} alt="" />
             </div>
             <div className='2xl:px-6'>
                 <h1 className='text-2xl font-semibold text-left'>{product.productName}</h1>

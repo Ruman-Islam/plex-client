@@ -20,6 +20,7 @@ const LoginBox = ({ signInWithEmailAndPassword }) => {
         const password = data.password;
         await signInWithEmailAndPassword(email, password)
     };
+
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}

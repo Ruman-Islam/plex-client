@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase/firebaseConfig';
-import { Table } from 'antd';
+import { Table, Button, Popover, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom';
 
 const MyOrders = () => {
@@ -53,11 +53,21 @@ const MyOrders = () => {
             render: (status, id) => {
                 return id.paymentStatus ?
                     null :
-                    <button onClick={() => handleCancelOrder(id._id)}
-                        className='hover:bg-red-700 bg-red-600
+                    <Popconfirm
+                        placement="bottomRight"
+                        title="Are you sure want to cancel?"
+                        onConfirm={async () => {
+                            handleCancelOrder(id._id)
+                        }}
+                        okText="Yes"
+                        cancelText="No">
+                        <button
+                            className='hover:bg-red-700 bg-red-600
                     text-white hover:text-white uppercase w-20 rounded duration-300'>
-                        cancel
-                    </button>
+                            cancel
+                        </button>
+                    </Popconfirm>
+
             },
         },
     ];
