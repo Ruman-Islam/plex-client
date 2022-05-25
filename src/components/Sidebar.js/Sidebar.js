@@ -13,7 +13,7 @@ const Sidebar = () => {
         <aside className='bg-base-100 h-screen border'>
             <div className="logo hidden xl:block">
                 <NavLink className="text-black" to="/">
-                    <span className='flex justify-center my-5 text-3xl'>PL<AiOutlineMenu className='text-primary' />X</span>
+                    <span className='flex justify-start my-5 ml-5 text-3xl'>PL<AiOutlineMenu className='text-primary' />X</span>
                 </NavLink>
             </div>
             <div className="sidebarMobileHidden w-56">

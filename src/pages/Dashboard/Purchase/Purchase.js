@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useParams } from 'react-router-dom';
-import Spinner from '../../components/shared/Spinner';
+import Spinner from '../../../components/shared/Spinner';
 import ProductDetail from './ProductDetail';
 import { Elements } from '@stripe/react-stripe-js';
 import CheckoutForm from './CheckoutForm';

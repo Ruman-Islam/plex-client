@@ -49,7 +49,7 @@ const Navbar = () => {
                     <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
                     <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
                     <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/dashboard">Dashboard</NavLink>
+                    {user && <NavLink className={`ant-anchor-link text-white ${navbar && 'text-black'}`} to="/dashboard">Dashboard</NavLink>}
                     {user ? <Popconfirm
                         placement="bottomRight"
                         title="Are you sure want to logout?"

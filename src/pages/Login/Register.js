@@ -52,6 +52,7 @@ const Register = () => {
                         </div>
                     </div>
                     <div className='mt-2 text-base-100'>
+                        <small>This page is protected by Google Firebase to ensure you're not unauthorized.</small>
                         <p className='text-center font-bold'>© {year} Ruman Islam. All rights reserved</p>
                         <h1 onClick={() => navigate('/home')}
                             className='flex items-center justify-center text-base-100 cursor-pointer hover:underline'>

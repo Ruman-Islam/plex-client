@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import auth from '../../firebase/firebaseConfig';
+import auth from '../../../firebase/firebaseConfig';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import Spinner from '../../components/shared/Spinner';
+import Spinner from '../../../components/shared/Spinner';
 import { message } from 'antd';
 
 const CheckoutForm = ({ product }) => {
