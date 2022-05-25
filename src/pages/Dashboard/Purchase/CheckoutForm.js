@@ -4,15 +4,17 @@ import auth from '../../../firebase/firebaseConfig';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Spinner from '../../../components/shared/Spinner';
 import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const CheckoutForm = ({ product }) => {
+    const navigate = useNavigate();
     const [user, ,] = useAuthState(auth);
     const stripe = useStripe();
     const elements = useElements();
     const [cardError, setCardError] = useState('');
-    const [success, setSuccess] = useState('');
+    // const [success, setSuccess] = useState('');
     const [loading, setLoading] = useState(false);
-    const [transactionId, setTransactionId] = useState('');
+    // const [transactionId, setTransactionId] = useState('');
     const [clientSecret, setClientSecret] = useState('');
     const { _id, productPrice, minimumOrder, availableQuantity } = product;
 
@@ -75,7 +77,7 @@ const CheckoutForm = ({ product }) => {
             setCardError('');
         }
         setLoading(true);
-        setSuccess('');
+        // setSuccess('');
 
 
         // confirm card payment
@@ -98,8 +100,8 @@ const CheckoutForm = ({ product }) => {
         } else {
             setLoading(false);
             setCardError('');
-            setTransactionId(paymentIntent.id);
-            setSuccess('Congrats! Your payment is completed.');
+            // setTransactionId(paymentIntent.id);
+            // setSuccess('Congrats! Your payment is completed.');
 
             // store payment on database
             const payment = {
@@ -120,7 +122,10 @@ const CheckoutForm = ({ product }) => {
             })
                 .then(res => res.json())
                 .then(data => {
-
+                    if (data.paymentStatus) {
+                        message.success('Payment Successful');
+                        navigate('/dashboard/my-orders')
+                    }
                 })
         }
     };
@@ -165,10 +170,10 @@ const CheckoutForm = ({ product }) => {
             </form>
             {loading && <Spinner margin='5' />}
             {cardError && <p className='text-red-500'>{cardError}</p>}
-            {success && <div className='text-green-500'>
+            {/* {success && <div className='text-green-500'>
                 <p>{success}</p>
                 <p>Your transaction Id: <span className='text-orange-500 font-bold'>{transactionId}</span></p>
-            </div>}
+            </div>} */}
         </>
     );
 };

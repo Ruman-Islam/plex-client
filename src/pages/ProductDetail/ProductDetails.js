@@ -26,12 +26,14 @@ const ProductDetails = () => {
             })
     }, [id])
 
-    const handleBooking = () => {
+    const handleBooking = id => {
         const bookingProduct = {
             name: user.displayName,
             email: user.email,
             productName: product.productName,
+            productId: id,
             price: product.productPrice,
+            paymentStatus: false,
             date: new Date().toDateString()
         }
 
