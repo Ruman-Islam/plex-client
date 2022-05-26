@@ -15,6 +15,7 @@ const SocialLogin = () => {
     const { token } = useToken(googleUser);
 
     useEffect(() => {
+        console.log(token);
         if (token) navigate(from, { replace: true });
         if (error) message.error(error?.message.split('/')[1].split(')')[0]);
     }, [token, error, navigate, from]);
