@@ -48,7 +48,7 @@ const Navbar = ({ background, font }) => {
                     <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
                     <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
                     <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
+                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/blog">Blog</NavLink>
                     {user && <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/dashboard">Dashboard</NavLink>}
                     {user ? <Popconfirm
                         placement="bottomRight"

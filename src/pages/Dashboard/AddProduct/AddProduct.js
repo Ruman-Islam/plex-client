@@ -12,7 +12,7 @@ const AddProduct = () => {
     const [imageURL, setImageURL] = useState({});
     const { register, handleSubmit, reset } = useForm();
 
-    const onSubmit = async data => {
+    const onSubmit = async (data, event) => {
 
         const formData = new FormData();
         formData.append('image', imageURL);
@@ -49,7 +49,7 @@ const AddProduct = () => {
                             .then(res => res.json())
                             .then(async (data) => {
                                 if (data.success) {
-                                    console.log(data);
+                                    reset();
                                     message.success('Information updated!');
                                 }
                             })
