@@ -37,6 +37,10 @@ const AllUser = () => {
                 return res.json();
             })
             .then(data => {
+                if (!data.success) {
+                    message.warning(data.message);
+                    return;
+                }
                 if (data.result.deletedCount > 0) {
                     refetch();
                     message.success('Successfully deleted')
