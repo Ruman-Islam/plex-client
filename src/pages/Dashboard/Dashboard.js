@@ -7,6 +7,8 @@ import {
     UserOutlined,
     SettingOutlined,
     UsergroupAddOutlined,
+    SnippetsFilled,
+    FileAddOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Space } from 'antd';
 import { NavLink, Outlet } from 'react-router-dom';
@@ -54,17 +56,17 @@ const Dashboard = () => {
                             <Menu.Item key='3' icon={<UsergroupAddOutlined />}>
                                 <NavLink to='all-user'>All users</NavLink>
                             </Menu.Item>
-                            <Menu.Item key='4' icon={<UsergroupAddOutlined />}>
+                            <Menu.Item key='4' icon={<SnippetsFilled />}>
                                 <NavLink to='manage-orders'>Manage Orders</NavLink>
                             </Menu.Item>
-                            <Menu.Item key='5' icon={<UsergroupAddOutlined />}>
+                            <Menu.Item key='5' icon={<FileAddOutlined />}>
                                 <NavLink to='add-product'>Add Product</NavLink>
                             </Menu.Item>
                             <Menu.Item key='6' icon={<UsergroupAddOutlined />}>
                                 <NavLink to='manage-product'>Manage Products</NavLink>
                             </Menu.Item>
                             <Menu.Item key='7' icon={<UsergroupAddOutlined />}>
-                                <NavLink to='make-admin'>Make Admin</NavLink>
+                                <NavLink to='add-admin'>Make Admin</NavLink>
                             </Menu.Item>
                         </SubMenu>}
 

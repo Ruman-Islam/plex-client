@@ -30,7 +30,7 @@ const EditProfile = () => {
 
     const onSubmit = async data => {
 
-        const userInfo = {
+        let userInfo = {
             name: data.firstName + ' ' + data.lastName,
             email: user.email,
             phone: data.phone,
@@ -50,9 +50,9 @@ const EditProfile = () => {
                 body: formData
             })
                 .then(res => res.json())
-                .then(async (result) => {
+                .then((result) => {
                     if (result.success) {
-                        await updateProfile({ photoURL: result.data.url })
+                        updateProfile({ photoURL: result.data.url })
                     }
                 })
         }

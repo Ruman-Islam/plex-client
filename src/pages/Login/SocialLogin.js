@@ -20,7 +20,7 @@ const SocialLogin = () => {
     }, [token, error, navigate, from]);
 
     if (loading) {
-        return <Spinner />
+        return <Spinner component='social' />
     };
 
     return (

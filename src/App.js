@@ -16,8 +16,9 @@ import AddReview from './pages/Dashboard/AddReview/AddReview';
 import EditProfile from './pages/Dashboard/Account/EditProfile';
 import ProductDetails from './pages/ProductDetail/ProductDetails';
 import AdminRoute from './authentication/AdminRoute';
-import AllUser from './pages/AllUser/AllUser';
+import AllUser from './pages/Dashboard/AllUser/AllUser';
 import NotFound from './pages/NotFound/NotFound';
+import AddAdmin from './pages/Dashboard/AddAdmin/AddAdmin';
 
 function App() {
   return (
@@ -45,6 +46,11 @@ function App() {
             <AdminRoute>
               <AllUser />
             </AdminRoute>}
+          />
+          <Route path='add-admin' element={
+            <AddAdmin>
+              <AllUser />
+            </AddAdmin>}
           />
         </Route>
         <Route path='*' element={<NotFound />} />
