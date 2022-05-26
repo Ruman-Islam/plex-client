@@ -8,7 +8,7 @@ import { Cascader } from 'antd';
 
 const ManageOrders = () => {
     const [user, ,] = useAuthState(auth);
-    const url = `http://localhost:5000/all-orders?email=${user.email}`;
+    const url = `https://mysterious-harbor-14588.herokuapp.com/all-orders?email=${user.email}`;
     const { data: { result } = {}, isLoading, refetch } = useQuery(['all-orders', user], () => fetch(url, {
         method: 'GET',
         headers: {
@@ -23,7 +23,7 @@ const ManageOrders = () => {
 
 
     const onChange = (id) => {
-        const url = `http://localhost:5000/shipment-update/${id}`;
+        const url = `https://mysterious-harbor-14588.herokuapp.com/shipment-update/${id}`;
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -40,6 +40,25 @@ const ManageOrders = () => {
                 }
             })
     };
+
+    const handleDeleteOrder = id => {
+        const url = `https://mysterious-harbor-14588.herokuapp.com/delete-order/${id}`;
+        fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            },
+            body: JSON.stringify({ email: user.email })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.result.deletedCount > 0) {
+                    message.success('Order deleted successfully');
+                    refetch();
+                }
+            })
+    }
 
 
     const columns = [
@@ -92,14 +111,14 @@ const ManageOrders = () => {
                     placement="bottomRight"
                     title="Are you sure want to delete?"
                     onConfirm={async () => {
-                        // handleUserDelete(id.userInfo?.email)
+                        handleDeleteOrder(id._id);
                     }}
                     okText="Yes"
                     cancelText="No">
                     <button
                         className='hover:bg-red-700 bg-red-600 text-white
             hover:text-white uppercase w-20 rounded duration-300'>
-                        Delete
+                        Cancel
                     </button>
                 </Popconfirm>
             }

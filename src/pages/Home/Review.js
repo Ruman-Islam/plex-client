@@ -10,7 +10,7 @@ const contentStyle = {
 };
 
 const Review = () => {
-    const url = 'http://localhost:5000/get-review';
+    const url = 'https://mysterious-harbor-14588.herokuapp.com/get-review';
     const { data: { reviews } = {} } = useQuery('getReview', () => fetch(url, {
         method: 'GET'
     }).then(res => res.json()))

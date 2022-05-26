@@ -8,7 +8,7 @@ import { useQuery } from 'react-query';
 const AddAdmin = () => {
     const [user, ,] = useAuthState(auth);
 
-    const url = `http://localhost:5000/all-user?email=${user.email}`;
+    const url = `https://mysterious-harbor-14588.herokuapp.com/all-user?email=${user.email}`;
     const { data: { users } = {}, isLoading, refetch } = useQuery(['all-user', user], () => fetch(url, {
         method: 'GET',
         headers: {
@@ -17,7 +17,7 @@ const AddAdmin = () => {
     }).then(res => res.json()))
 
     const makeAdmin = email => {
-        const url = `http://localhost:5000/add-admin/${user.email}`
+        const url = `https://mysterious-harbor-14588.herokuapp.com/add-admin/${user.email}`
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -41,7 +41,7 @@ const AddAdmin = () => {
     }
 
     const removeAdmin = email => {
-        const url = `http://localhost:5000/remove-admin/${user.email}`
+        const url = `https://mysterious-harbor-14588.herokuapp.com/remove-admin/${user.email}`
         fetch(url, {
             method: 'PUT',
             headers: {

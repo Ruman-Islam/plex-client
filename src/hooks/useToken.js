@@ -5,7 +5,7 @@ const useToken = user => {
     const email = user?.user?.email;
 
     useEffect(() => {
-        const url = `http://localhost:5000/user/${email}`;
+        const url = `https://mysterious-harbor-14588.herokuapp.com/user/${email}`;
         if (email) {
             fetch(url, {
                 method: 'PUT',

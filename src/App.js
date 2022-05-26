@@ -1,4 +1,5 @@
 import { Route, Routes } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import Home from './pages/Home/Home';
 import Products from './pages/Home/Products';
 import Login from './pages/Login/Login';
@@ -18,11 +19,17 @@ import AddAdmin from './pages/Dashboard/AddAdmin/AddAdmin';
 import AddProduct from './pages/Dashboard/AddProduct/AddProduct';
 import MyPortfolio from './pages/MyPortfolio/MyPortfolio';
 import Blog from './pages/Blog/Blog';
+import ManageOrders from './pages/Dashboard/ManageOrders/ManageOrders';
+import ManageProduct from './pages/Dashboard/ManageProduct/ManageProduct';
+import auth from './firebase/firebaseConfig';
+import useAdmin from './hooks/useAdmin';
 import 'antd/dist/antd.css';
 import './App.css';
-import ManageOrders from './pages/Dashboard/ManageOrders/ManageOrders';
 
 function App() {
+  const [user, ,] = useAuthState(auth);
+  const { admin } = useAdmin(user);
+
   return (
     <div className="App">
       <Routes>
@@ -40,7 +47,12 @@ function App() {
           </PrivateRoute>
         }>
           <Route path='purchase/:id' element={<Purchase />} />
-          <Route index element={<MyOrders />} />
+          {admin ? <Route index element={
+            <AdminRoute>
+              <AllUser />
+            </AdminRoute>}
+          /> :
+            <Route index element={<MyOrders />} />}
           <Route path='my-orders' element={<MyOrders />} />
           <Route path='profile' element={<MyProfile />} />
           <Route path='edit-profile' element={<EditProfile />} />
@@ -63,6 +75,11 @@ function App() {
           <Route path='manage-orders' element={
             <AdminRoute>
               <ManageOrders />
+            </AdminRoute>}
+          />
+          <Route path='manage-products' element={
+            <AdminRoute>
+              <ManageProduct />
             </AdminRoute>}
           />
         </Route>

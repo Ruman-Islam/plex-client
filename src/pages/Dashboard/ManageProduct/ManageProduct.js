@@ -1,18 +1,18 @@
+import { message, Popconfirm, Table } from 'antd';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
-import auth from '../../../firebase/firebaseConfig';
 import Spinner from '../../../components/shared/Spinner';
-import { message, Popconfirm, Table } from 'antd';
+import auth from '../../../firebase/firebaseConfig';
 
-
-const AllUser = () => {
+const ManageProduct = () => {
     const [user, ,] = useAuthState(auth);
-    const url = `https://mysterious-harbor-14588.herokuapp.com/all-user?email=${user.email}`;
-    const { data: { users } = {}, isLoading, refetch } = useQuery(['all-user', user], () => fetch(url, {
+
+    const url = 'https://mysterious-harbor-14588.herokuapp.com/products';
+    const { data, isLoading, refetch } = useQuery(['all-products', user], () => fetch(url, {
         method: 'GET',
         headers: {
-            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            'content-type': 'application/json'
         }
     }).then(res => res.json()))
 
@@ -20,64 +20,54 @@ const AllUser = () => {
         return <Spinner />
     }
 
-    const handleUserDelete = email => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/delete-user/${user.email}`
+
+    const handleDeleteProduct = id => {
+        const url = `https://mysterious-harbor-14588.herokuapp.com/delete-product/${id}`;
         fetch(url, {
             method: 'DELETE',
             headers: {
                 'content-type': 'application/json',
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`
             },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ email: user.email })
         })
-            .then(res => {
-                if (res.status === 403) {
-                    message.error('Failed to delete')
-                }
-                return res.json();
-            })
+            .then(res => res.json())
             .then(data => {
                 if (data.result.deletedCount > 0) {
+                    message.success('Order deleted successfully');
                     refetch();
-                    message.success('Successfully deleted')
                 }
             })
     }
 
+
     const columns = [
         {
-            title: 'Name',
-            dataIndex: ['userInfo', '_id'],
+            title: 'Product Name',
+            dataIndex: ['productName', '_id'],
             key: '_id',
-            render: (status, id) => <h1>{id.userInfo?.name}</h1>,
+            render: (status, id) => <h1>{id.productName}</h1>,
         },
         {
-            title: 'Email',
-            dataIndex: ['userInfo', '_id'],
+            title: 'Price',
+            dataIndex: ['productPrice', '_id'],
             key: '_id',
             responsive: ['md'],
-            render: (status, id) => <h1>{id.userInfo?.email}</h1>,
+            render: (status, productPrice) => <h1>{productPrice.productPrice} $</h1>,
         },
         {
-            title: 'Phone',
-            dataIndex: ['userInfo', '_id'],
+            title: 'Available Quantity',
+            dataIndex: ['availableQuantity', '_id'],
             key: '_id',
             responsive: ['md'],
-            render: (status, id) => <h1>{id.userInfo?.phone}</h1>,
+            render: (status, id) => <h1>{id.availableQuantity} pieces</h1>,
         },
         {
-            title: 'Location',
-            dataIndex: ['userInfo', '_id'],
+            title: 'Minimum Order',
+            dataIndex: ['minimumOrder', '_id'],
             key: '_id',
             responsive: ['md'],
-            render: (status, id) => <h1>{id.userInfo?.location}</h1>,
-        },
-        {
-            title: 'Education',
-            dataIndex: ['paymentStatus', '_id'],
-            key: '_id',
-            responsive: ['lg'],
-            render: (status, id) => <h1>{id.userInfo?.education}</h1>,
+            render: (status, minimumOrder) => <h1>{minimumOrder.minimumOrder} pieces</h1>,
         },
         {
             title: 'Action',
@@ -89,7 +79,7 @@ const AllUser = () => {
                     placement="bottomRight"
                     title="Are you sure want to delete?"
                     onConfirm={async () => {
-                        handleUserDelete(id.userInfo?.email)
+                        handleDeleteProduct(id._id)
                     }}
                     okText="Yes"
                     cancelText="No">
@@ -103,13 +93,12 @@ const AllUser = () => {
         }
     ];
 
-
     return (
         <div>
-            <h1>All users {users?.length}</h1>
-            <Table columns={columns} dataSource={users} />
+            <h1>manage{data?.length}</h1>
+            <Table columns={columns} dataSource={data} />
         </div>
     );
 };
 
-export default AllUser;
+export default ManageProduct;

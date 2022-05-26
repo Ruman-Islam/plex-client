@@ -45,9 +45,7 @@ const Navbar = ({ background, font }) => {
                 </div>
                 <div className="mobileHidden">
                     <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/home">Home</NavLink>
-                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/products">Products</NavLink>
-                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/portfolio">About me</NavLink>
+                    <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/portfolio">About us</NavLink>
                     <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/blog">Blog</NavLink>
                     {user && <NavLink className={`ant-anchor-link text-${font} ${navbar && 'text-black'}`} to="/dashboard">Dashboard</NavLink>}
                     {user ? <Popconfirm

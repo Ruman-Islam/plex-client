@@ -21,6 +21,7 @@ const { SubMenu } = Menu;
 const Dashboard = () => {
     const [user, ,] = useAuthState(auth);
     const { admin } = useAdmin(user);
+    const year = new Date().getFullYear();
 
     return (
         <Layout>
@@ -39,6 +40,7 @@ const Dashboard = () => {
                 <Menu
                     theme="dark"
                     mode="inline"
+                    defaultOpenKeys={['sub1', 'sub2']}
                 >
 
                     {(user && !admin) &&
@@ -80,6 +82,7 @@ const Dashboard = () => {
                     </SubMenu>
                 </Menu>
             </Sider>
+
             <Layout className="site-layout">
                 <Content
                     className="site-layout-background"
@@ -95,7 +98,7 @@ const Dashboard = () => {
                         textAlign: 'center',
                     }}
                 >
-                    Ant Design ©2018 Created by Ant UED
+                    All Rights reserves to Ruman Islam ©{year}
                 </Footer>
             </Layout>
         </Layout>
