@@ -19,13 +19,13 @@ const MyProfile = () => {
 
     return (
         <div className='w-full xl:w-8/12 mx-auto p-5 bg-sky-100 rounded-lg'>
-            <div className='flex items-center flex-col 2xl:flex-row justify-center h-[70vh] xl:h-[50vh]'>
+            <div className='flex items-center flex-col xl:flex-row justify-center h-[70vh] xl:h-[50vh]'>
                 <Avatar shape="rounded" size={{
                     xs: 120,
-                    sm: 32,
-                    md: 40,
-                    lg: 64,
-                    xl: 100,
+                    sm: 120,
+                    md: 160,
+                    lg: 200,
+                    xl: 250,
                     xxl: 300,
                 }} icon={<img className='rounded-lg' src={user?.photoURL} alt='' />} />
                 <div className='ml-0 xl:ml-5 text-center'>

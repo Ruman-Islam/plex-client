@@ -95,7 +95,7 @@ const ManageProduct = () => {
 
     return (
         <div>
-            <h1>manage{data?.length}</h1>
+            <h1>Total products {data?.length}</h1>
             <Table columns={columns} dataSource={data} />
         </div>
     );

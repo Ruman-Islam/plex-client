@@ -7,8 +7,8 @@ const { Meta } = Card;
 
 const Cards = () => {
     return (
-        <div className='grid grid-cols-1 xl:grid-cols-2 justify-items-center p-5
-         2xl:grid-cols-3 w-8/12 mx-auto gap-y-5'>
+        <div className='grid grid-cols-1 xl:grid-cols-3 justify-items-center p-5
+          xl:w-10/12 2xl:w-8/12 mx-auto gap-y-5'>
             <a href="https://plex-4449f.web.app/">
                 <Card
                     hoverable

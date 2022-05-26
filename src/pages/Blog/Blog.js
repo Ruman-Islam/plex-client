@@ -6,7 +6,7 @@ const Blog = () => {
     return (
         <div>
             <Navbar background="white" font="black" />
-            <div className='w-4/5 mx-auto h-[100vh] xl:h-[85vh] py-24 2xl:py-44 mb-[610px] xl:mb-[0]'>
+            <div className='w-4/5 mx-auto h-[100vh] xl:h-[85vh] py-24 2xl:py-28 mb-[610px] xl:mb-[300px]'>
                 <div className='my-5'>
                     <h1 className='text-xl font-semibold'>How will you improve the performance of a React Application?</h1>
                     <ul>

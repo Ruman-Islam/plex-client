@@ -8,7 +8,7 @@ const OurCustomers = () => {
     return (
         <div className='text-center'>
             <h1 className='text-4xl 2xl:text-6xl font-extrabold'>Our Customers.</h1>
-            <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 justify-items-center 2xl:px-72 gap-6 justify-center items-center'>
+            <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 justify-items-center xl:px-72 gap-6 justify-center items-center'>
                 <div className='w-[300px] border'>
                     <img src={img1} alt="" />
                 </div>

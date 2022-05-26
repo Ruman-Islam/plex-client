@@ -101,7 +101,7 @@ const Footer = () => {
                         </ul>
                     </div>
                 </div>
-                <Collapse accordion className='block 2xl:hidden'>
+                <Collapse accordion className='block xl:hidden'>
                     <Panel header="Products" key="1">
                         <ul>
                             <li>Manufacturing Execution System (MES)</li>
@@ -186,7 +186,7 @@ const Footer = () => {
                 </Collapse>
             </div>
             <div className='border border-t-0 border-l-0 border-r-0 border-b-1 w-10/12 mx-auto mt-10 2xl:mt-20'>
-                <ul className='flex justify-center 2xl:justify-start text-4xl 2xl:pl-10'>
+                <ul className='flex justify-center xl:justify-start text-4xl 2xl:pl-10'>
                     <li className='ml-1 text-blue-600 hover:text-primary cursor-pointer duration-300'><FacebookFilled /></li>
                     <li className='ml-1 text-sky-600 hover:text-primary cursor-pointer duration-300'><TwitterSquareFilled /></li>
                     <li className='ml-1 text-blue-900 hover:text-primary cursor-pointer duration-300'><LinkedinFilled /></li>

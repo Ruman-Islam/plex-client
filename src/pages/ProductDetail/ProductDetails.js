@@ -59,28 +59,28 @@ const ProductDetails = () => {
             <Navbar background="white" font="black" />
             <div id='product-detail' className='page-container'>
                 {loading ? <Spinner /> :
-                    <div className='flex justify-center items-center 2xl:items-start text-center 2xl:text-left
-                     flex-col 2xl:flex-row py-24 2xl:py-44 w-8/12 content-wrap mx-auto'>
-                        <div className='w-56 2xl:w-4/12 shrink-0'>
-                            <img className='w-full 2xl:h-[65vh] object-fill' src={product.productImage} alt="" />
+                    <div className='flex justify-center items-center xl:items-start text-center xl:text-left
+                     flex-col xl:flex-row py-24 2xl:py-44 w-8/12 content-wrap mx-auto'>
+                        <div className='w-56 xl:w-5/12 shrink-0'>
+                            <img className='w-full xl:h-[65vh] object-fill' src={product.productImage} alt="" />
                         </div>
-                        <div className='2xl:px-6'>
-                            <h1 className='text-2xl font-semibold 2xl:text-left'>{product.productName}</h1>
+                        <div className='xl:px-6'>
+                            <h1 className='text-2xl font-semibold xl:text-left'>{product.productName}</h1>
                             <Rating
-                                className='text-lg text-amber-400 2xl:my-2'
+                                className='text-lg text-amber-400 xl:my-2'
                                 initialRating={product.rating}
                                 emptySymbol={<StarOutlined />}
                                 fullSymbol={<StarFilled />}
                                 readonly>
                             </Rating>
-                            <p className='flex text-lg justify-center 2xl:justify-start'><span className='mr-2'>QUANTITY:</span>
+                            <p className='flex text-lg justify-center xl:justify-start'><span className='mr-2'>QUANTITY:</span>
                                 <span className='flex items-center text-green-500'>
                                     <span className='mr-2'>{product.availableQuantity}</span>
                                 </span>
                             </p>
-                            <p className='flex text-lg my-2 justify-center 2xl:justify-start'><span className='mr-2'>TAGS :</span> {product.tags}
+                            <p className='flex text-lg my-2 justify-center xl:justify-start'><span className='mr-2'>TAGS :</span> {product.tags}
                             </p>
-                            <p className='flex text-lg justify-center 2xl:justify-start'><span className='mr-2'>ID :</span> <span>{product._id}</span></p>
+                            <p className='flex text-lg justify-center xl:justify-start'><span className='mr-2'>ID :</span> <span>{product._id}</span></p>
                             <p className='text-4xl font-extrabold my-5 primary-color text-center md:text-left'>{'$'}{product.productPrice}</p>
                             <div className='flex flex-col'>
                                 <div className='order-2 md:order-1 text-center md:text-left'>
