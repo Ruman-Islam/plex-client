@@ -66,7 +66,7 @@ const Dashboard = () => {
                                 <NavLink to='manage-product'>Manage Products</NavLink>
                             </Menu.Item>
                             <Menu.Item key='7' icon={<UsergroupAddOutlined />}>
-                                <NavLink to='add-admin'>Make Admin</NavLink>
+                                <NavLink to='add-admin'>Manage Admin</NavLink>
                             </Menu.Item>
                         </SubMenu>}
 

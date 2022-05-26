@@ -26,12 +26,12 @@ const ProductCard = ({ product }) => {
                         <span className='text-base-100 text-lg font-semibold'>DETAIL</span>
                     </Link>
                 </div>
-                <div className="overlay text-center">
+                <div className="overlay text-center overflow-hidden">
                     <div className="icon mb-2">
                         <img src={Icon} alt="" />
                     </div>
                     <h3>{productName}</h3>
-                    <p>{productDesc}</p>
+                    <p>{productDesc.slice(0, 100)}</p>
                 </div>
             </div>
         </div>

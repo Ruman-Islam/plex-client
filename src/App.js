@@ -19,6 +19,7 @@ import AdminRoute from './authentication/AdminRoute';
 import AllUser from './pages/Dashboard/AllUser/AllUser';
 import NotFound from './pages/NotFound/NotFound';
 import AddAdmin from './pages/Dashboard/AddAdmin/AddAdmin';
+import AddProduct from './pages/Dashboard/AddProduct/AddProduct';
 
 function App() {
   return (
@@ -48,9 +49,14 @@ function App() {
             </AdminRoute>}
           />
           <Route path='add-admin' element={
-            <AddAdmin>
-              <AllUser />
-            </AddAdmin>}
+            <AdminRoute>
+              <AddAdmin />
+            </AdminRoute>}
+          />
+          <Route path='add-product' element={
+            <AdminRoute>
+              <AddProduct />
+            </AdminRoute>}
           />
         </Route>
         <Route path='*' element={<NotFound />} />

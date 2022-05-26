@@ -100,8 +100,6 @@ const AllUser = () => {
                     </button>
                 </Popconfirm>
             }
-
-
         }
     ];
 
