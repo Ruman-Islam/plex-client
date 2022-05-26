@@ -8,7 +8,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import Purchase from './pages/Dashboard/Purchase/Purchase';
 import PrivateRoute from './authentication/PrivateRoute';
 import MyProfile from './pages/Dashboard/Account/MyProfile';
-import MyOrders from './pages/Dashboard/MyOrders';
+import MyOrders from './pages/Dashboard/MyOrders/MyOrders';
 import AddReview from './pages/Dashboard/AddReview/AddReview';
 import EditProfile from './pages/Dashboard/Account/EditProfile';
 import ProductDetails from './pages/ProductDetail/ProductDetails';

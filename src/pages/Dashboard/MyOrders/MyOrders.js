@@ -1,9 +1,9 @@
 import { useAuthState } from 'react-firebase-hooks/auth';
-import auth from '../../firebase/firebaseConfig';
+import auth from '../../../firebase/firebaseConfig';
 import { Table, Popconfirm } from 'antd';
 import { Link } from 'react-router-dom';
 import { useQuery } from 'react-query';
-import Spinner from '../../components/shared/Spinner';
+import Spinner from '../../../components/shared/Spinner';
 
 const MyOrders = () => {
     const [user, ,] = useAuthState(auth);
