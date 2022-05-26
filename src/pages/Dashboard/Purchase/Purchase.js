@@ -14,7 +14,7 @@ const Purchase = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost:5000/product/${id}`)
+        fetch(`https://mysterious-harbor-14588.herokuapp.com/product/${id}`)
             .then(res => res.json())
             .then(data => {
                 setLoading(false);

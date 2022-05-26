@@ -71,13 +71,13 @@ const MyOrders = () => {
         },
     ];
 
-    const url = `http://localhost:5000/user/my-orders?email=${user.email}`;
+    const url = `https://mysterious-harbor-14588.herokuapp.com/user/my-orders?email=${user.email}`;
     const { data: { orders } = {}, isLoading, refetch } = useQuery(['my-orders', user], () => fetch(url, {
         method: 'GET',
     }).then(res => res.json()))
 
     const handleCancelOrder = id => {
-        fetch(`http://localhost:5000/delete-order/${id}`, {
+        fetch(`https://mysterious-harbor-14588.herokuapp.com/delete-order/${id}`, {
             method: 'DELETE',
             headers: {
                 'content-type': 'application/json'

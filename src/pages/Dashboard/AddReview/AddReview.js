@@ -22,7 +22,7 @@ const AddReview = () => {
             date: new Date().toLocaleString().split(',')[0]
         }
 
-        fetch('http://localhost:5000/add-review', {
+        fetch('https://mysterious-harbor-14588.herokuapp.com/add-review', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

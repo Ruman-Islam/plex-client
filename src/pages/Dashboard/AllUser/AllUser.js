@@ -8,7 +8,7 @@ import { message, Popconfirm, Table } from 'antd';
 
 const AllUser = () => {
     const [user, ,] = useAuthState(auth);
-    const url = `http://localhost:5000/all-user?email=${user.email}`;
+    const url = `https://mysterious-harbor-14588.herokuapp.com/all-user?email=${user.email}`;
     const { data: { users } = {}, isLoading, refetch } = useQuery(['all-user', user], () => fetch(url, {
         method: 'GET',
         headers: {
@@ -21,7 +21,7 @@ const AllUser = () => {
     }
 
     const handleUserDelete = email => {
-        const url = `http://localhost:5000/delete-user/${user.email}`
+        const url = `https://mysterious-harbor-14588.herokuapp.com/delete-user/${user.email}`
         fetch(url, {
             method: 'DELETE',
             headers: {
