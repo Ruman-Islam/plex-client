@@ -15,7 +15,6 @@ const Navbar = ({ background, font }) => {
     </div>
     const { navbar } = useNav();
     const [visible, setVisible] = useState(false);
-    const [childrenDrawer, setChildrenDrawer] = useState(false);
     const [user, ,] = useAuthState(auth);
     const navigate = useNavigate();
 
@@ -27,13 +26,6 @@ const Navbar = ({ background, font }) => {
         setVisible(false);
     };
 
-    const showChildrenDrawer = () => {
-        setChildrenDrawer(true);
-    };
-
-    const onChildrenDrawerClose = () => {
-        setChildrenDrawer(false);
-    };
 
     return (
         <nav className={`fixed w-full z-50 bg-${background} ${navbar === 5 ? 'scroll-up' : 'scroll duration-500 shadow-lg'}`}>
@@ -75,9 +67,10 @@ const Navbar = ({ background, font }) => {
                             onClose={onClose}
                             visible={visible}>
                             <div className='flex flex-col'>
-                                <NavLink to="/">Home</NavLink>
-                                <NavLink to="/products">Products</NavLink>
-                                <NavLink to="/dashboard">Dashboard</NavLink>
+                                <NavLink className='text-black text-xl mb-2' to="/">Home</NavLink>
+                                <NavLink className='text-black text-xl mb-2' to="/portfolio">About us</NavLink>
+                                <NavLink className='text-black text-xl mb-2' to="/blog">Blog</NavLink>
+                                <NavLink className='text-black text-xl mb-2' to="/dashboard">Dashboard</NavLink>
                                 {user ? <Popconfirm
                                     placement="bottomLeft"
                                     title="Are you sure want to logout?"
@@ -87,37 +80,10 @@ const Navbar = ({ background, font }) => {
                                     }}
                                     okText="Yes"
                                     cancelText="No">
-                                    <a href='www.facebook.com'>Logout</a>
+                                    <span className='text-black text-xl mb-2'>Logout</span>
                                 </Popconfirm> :
-                                    <NavLink to="/login">login</NavLink>}
+                                    <NavLink className='text-black text-xl mb-2' to="/login">login</NavLink>}
                             </div>
-                            <Button type="primary" onClick={showChildrenDrawer}>
-                                Two-level drawer
-                            </Button>
-                            <Drawer
-                                title={logo}
-                                width={320}
-                                closable={false}
-                                onClose={onChildrenDrawerClose}
-                                visible={childrenDrawer}
-                            >
-                                <div className='flex flex-col'>
-                                    <NavLink to="/">Home</NavLink>
-                                    <NavLink to="/products">Products</NavLink>
-                                    {user ? <Popconfirm
-                                        placement="bottomLeft"
-                                        title="Are you sure want to logout?"
-                                        onConfirm={async () => {
-                                            await signOut(auth);
-                                            navigate('/home');
-                                        }}
-                                        okText="Yes"
-                                        cancelText="No">
-                                        <a href='www.facebook.com'>Logout</a>
-                                    </Popconfirm> :
-                                        <NavLink to="/login">login</NavLink>}
-                                </div>
-                            </Drawer>
                         </Drawer>
                     </>
                 </div>
