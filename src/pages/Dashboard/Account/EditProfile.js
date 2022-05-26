@@ -14,7 +14,7 @@ const EditProfile = () => {
     const [updateProfile, ,] = useUpdateProfile(auth);
     const { register, handleSubmit } = useForm();
 
-    const url = `https://mysterious-harbor-14588.herokuapp.com/get-userInfo?email=${user.email}`;
+    const url = `http://localhost:5000/get-userInfo?email=${user.email}`;
     const { data, isLoading } = useQuery(['editProfile', user], () => fetch(url, {
         method: 'GET'
     }).then(res => {
@@ -57,7 +57,7 @@ const EditProfile = () => {
                 })
         }
 
-        fetch(`https://mysterious-harbor-14588.herokuapp.com/add-userInfo?email=${user.email}`, {
+        fetch(`http://localhost:5000/add-userInfo?email=${user.email}`, {
             method: 'PUT',
             headers: {
                 'content-type': 'application/json'

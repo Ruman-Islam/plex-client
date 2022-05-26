@@ -18,7 +18,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`https://mysterious-harbor-14588.herokuapp.com/product/${id}`)
+        fetch(`http://localhost:5000/product/${id}`)
             .then(res => res.json())
             .then(data => {
                 setLoading(false);
@@ -37,7 +37,7 @@ const ProductDetails = () => {
             date: new Date().toDateString()
         }
 
-        fetch('https://mysterious-harbor-14588.herokuapp.com/book-product', {
+        fetch('http://localhost:5000/book-product', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

@@ -21,7 +21,7 @@ const CheckoutForm = ({ product }) => {
 
     useEffect(() => {
         if (productPrice) {
-            fetch('https://mysterious-harbor-14588.herokuapp.com/create-payment-intent', {
+            fetch('http://localhost:5000/create-payment-intent', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json',
@@ -113,7 +113,7 @@ const CheckoutForm = ({ product }) => {
                 phone: event.target.phone.value,
                 productQuantity: event.target.productQuantity.value
             }
-            fetch(`https://mysterious-harbor-14588.herokuapp.com/booking/${_id}`, {
+            fetch(`http://localhost:5000/booking/${_id}`, {
                 method: 'PATCH',
                 headers: {
                     'content-type': 'application/json',

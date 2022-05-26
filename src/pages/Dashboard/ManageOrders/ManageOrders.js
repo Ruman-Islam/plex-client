@@ -8,7 +8,7 @@ import { Cascader } from 'antd';
 
 const ManageOrders = () => {
     const [user, ,] = useAuthState(auth);
-    const url = `https://mysterious-harbor-14588.herokuapp.com/all-orders?email=${user.email}`;
+    const url = `http://localhost:5000/all-orders?email=${user.email}`;
     const { data: { result } = {}, isLoading, refetch } = useQuery(['all-orders', user], () => fetch(url, {
         method: 'GET',
         headers: {
@@ -23,7 +23,7 @@ const ManageOrders = () => {
 
 
     const onChange = (id) => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/shipment-update/${id}`;
+        const url = `http://localhost:5000/shipment-update/${id}`;
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -42,7 +42,7 @@ const ManageOrders = () => {
     };
 
     const handleDeleteOrder = id => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/delete-order/${id}`;
+        const url = `http://localhost:5000/delete-order/${id}`;
         fetch(url, {
             method: 'DELETE',
             headers: {

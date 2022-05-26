@@ -4,11 +4,12 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import Spinner from '../../../components/shared/Spinner';
 import auth from '../../../firebase/firebaseConfig';
 import { useQuery } from 'react-query';
+import { DingdingOutlined } from '@ant-design/icons';
 
 const AddAdmin = () => {
     const [user, ,] = useAuthState(auth);
 
-    const url = `https://mysterious-harbor-14588.herokuapp.com/all-user?email=${user.email}`;
+    const url = `http://localhost:5000/all-user?email=${user.email}`;
     const { data: { users } = {}, isLoading, refetch } = useQuery(['all-user', user], () => fetch(url, {
         method: 'GET',
         headers: {
@@ -17,7 +18,7 @@ const AddAdmin = () => {
     }).then(res => res.json()))
 
     const makeAdmin = email => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/add-admin/${user.email}`
+        const url = `http://localhost:5000/add-admin/${user.email}`
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -41,7 +42,7 @@ const AddAdmin = () => {
     }
 
     const removeAdmin = email => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/remove-admin/${user.email}`
+        const url = `http://localhost:5000/remove-admin/${user.email}`
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -57,7 +58,8 @@ const AddAdmin = () => {
                 return res.json();
             })
             .then(data => {
-                if (data.modifiedCount > 0) {
+                if (!data.success) message.warning(data.message);
+                if (data.result.modifiedCount > 0) {
                     message.success('Successfully remove an admin')
                     refetch();
                 }
@@ -73,41 +75,45 @@ const AddAdmin = () => {
             title: 'Name',
             dataIndex: ['userInfo', '_id'],
             key: '_id',
-            render: (status, id) => <h1>{id.userInfo?.name}</h1>,
+            render: (status, userInfo) => <h1>{userInfo.userInfo?.name}</h1>,
         },
         {
             title: 'Email',
             dataIndex: ['userInfo', '_id'],
             key: '_id',
             responsive: ['md'],
-            render: (status, id) => <h1>{id.userInfo?.email}</h1>,
+            render: (status, userInfo) => <h1>{userInfo.userInfo?.email}</h1>,
         },
         {
             title: 'Phone',
             dataIndex: ['userInfo', '_id'],
             key: '_id',
             responsive: ['md'],
-            render: (status, id) => <h1>{id.userInfo?.phone}</h1>,
+            render: (status, userInfo) => <h1>{userInfo.userInfo?.phone}</h1>,
         },
         {
             title: 'Role',
             dataIndex: ['userInfo', '_id'],
             key: '_id',
             responsive: ['md'],
-            render: (status, id) => <h1>{id.role}</h1>,
+            render: (status, userInfo) => <h1 className='flex items-center'>
+                <span className='mt-2'>{userInfo.role}</span>
+                {userInfo.email === 'rumanislam0429@gmail.com' &&
+                    <span className='text-sky-600 text-xl'><DingdingOutlined /></span>}
+            </h1>
         },
         {
             title: 'Action',
             dataIndex: ['paymentStatus', '_id'],
             key: '_id',
             responsive: ['lg'],
-            render: (status, id) => {
-                return id.role !== 'admin' ?
+            render: (status, userInfo) => {
+                return userInfo.role !== 'admin' ?
                     <Popconfirm
                         placement="bottom"
                         title="Make admin?"
                         onConfirm={async () => {
-                            makeAdmin(id.userInfo?.email);
+                            makeAdmin(userInfo.userInfo?.email);
                         }}
                         okText="Yes"
                         cancelText="No">
@@ -120,9 +126,9 @@ const AddAdmin = () => {
                     :
                     <Popconfirm
                         placement="bottom"
-                        title="Make admin?"
+                        title="Remove admin?"
                         onConfirm={async () => {
-                            removeAdmin(id.userInfo?.email);
+                            removeAdmin(userInfo.userInfo?.email);
                         }}
                         okText="Yes"
                         cancelText="No">

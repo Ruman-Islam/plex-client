@@ -38,7 +38,7 @@ const AddProduct = () => {
                             productDesc: data.productDesc
                         }
                         console.log(productInfo);
-                        fetch(`https://mysterious-harbor-14588.herokuapp.com/add-product?email=${user.email}`, {
+                        fetch(`http://localhost:5000/add-product?email=${user.email}`, {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/json',

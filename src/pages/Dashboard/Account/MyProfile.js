@@ -10,7 +10,7 @@ const MyProfile = () => {
     const [userInfo, setUserInfo] = useState({});
 
     useEffect(() => {
-        fetch(`https://mysterious-harbor-14588.herokuapp.com/get-userInfo?email=${user.email}`)
+        fetch(`http://localhost:5000/get-userInfo?email=${user.email}`)
             .then(res => res.json())
             .then(data => {
                 setUserInfo(data.result)

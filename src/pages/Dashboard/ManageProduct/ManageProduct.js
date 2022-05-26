@@ -8,7 +8,7 @@ import auth from '../../../firebase/firebaseConfig';
 const ManageProduct = () => {
     const [user, ,] = useAuthState(auth);
 
-    const url = 'https://mysterious-harbor-14588.herokuapp.com/products';
+    const url = 'http://localhost:5000/products';
     const { data, isLoading, refetch } = useQuery(['all-products', user], () => fetch(url, {
         method: 'GET',
         headers: {
@@ -22,7 +22,7 @@ const ManageProduct = () => {
 
 
     const handleDeleteProduct = id => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/delete-product/${id}`;
+        const url = `http://localhost:5000/delete-product/${id}`;
         fetch(url, {
             method: 'DELETE',
             headers: {
