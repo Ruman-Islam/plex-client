@@ -16,6 +16,7 @@ import AllUser from './pages/Dashboard/AllUser/AllUser';
 import NotFound from './pages/NotFound/NotFound';
 import AddAdmin from './pages/Dashboard/AddAdmin/AddAdmin';
 import AddProduct from './pages/Dashboard/AddProduct/AddProduct';
+import MyPortfolio from './pages/MyPortfolio/MyPortfolio';
 import Blog from './pages/Blog/Blog';
 import 'antd/dist/antd.css';
 import './App.css';
@@ -31,6 +32,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/product-details/:id' element={<ProductDetails />} />
         <Route path='/blog' element={<Blog />} />
+        <Route path='/portfolio' element={<MyPortfolio />} />
         <Route path="/dashboard" element={
           <PrivateRoute>
             <Dashboard />
