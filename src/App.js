@@ -20,6 +20,7 @@ import MyPortfolio from './pages/MyPortfolio/MyPortfolio';
 import Blog from './pages/Blog/Blog';
 import 'antd/dist/antd.css';
 import './App.css';
+import ManageOrders from './pages/Dashboard/ManageOrders/ManageOrders';
 
 function App() {
   return (
@@ -57,6 +58,11 @@ function App() {
           <Route path='add-product' element={
             <AdminRoute>
               <AddProduct />
+            </AdminRoute>}
+          />
+          <Route path='manage-orders' element={
+            <AdminRoute>
+              <ManageOrders />
             </AdminRoute>}
           />
         </Route>

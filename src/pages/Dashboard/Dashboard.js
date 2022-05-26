@@ -63,7 +63,7 @@ const Dashboard = () => {
                                 <NavLink to='add-product'>Add Product</NavLink>
                             </Menu.Item>
                             <Menu.Item key='6' icon={<UsergroupAddOutlined />}>
-                                <NavLink to='manage-product'>Manage Products</NavLink>
+                                <NavLink to='manage-products'>Manage Products</NavLink>
                             </Menu.Item>
                             <Menu.Item key='7' icon={<UsergroupAddOutlined />}>
                                 <NavLink to='add-admin'>Manage Admin</NavLink>
