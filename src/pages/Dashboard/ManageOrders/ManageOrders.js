@@ -1,146 +1,67 @@
-import { message, Popconfirm, Table } from 'antd';
-import React from 'react';
+import { message, Skeleton, Table } from 'antd';
+import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
-import Spinner from '../../../components/shared/Spinner';
 import auth from '../../../firebase/firebaseConfig';
-import { Cascader } from 'antd';
+import fetcher from '../../../api/axios';
+import { useColumn } from './columns';
 
 const ManageOrders = () => {
+    const [active, setActive] = useState(true);
     const [user, ,] = useAuthState(auth);
-    const url = `https://mysterious-harbor-14588.herokuapp.com/all-orders?email=${user.email}`;
-    const { data: { result } = {}, isLoading, refetch } = useQuery(['all-orders', user], () => fetch(url, {
-        method: 'GET',
-        headers: {
-            'content-type': 'application/json',
-            authorization: `Bearer ${localStorage.getItem('accessToken')}`
+
+    const { data, isLoading, refetch } = useQuery(['all-orders', user], async () => {
+        try {
+            const { data } = await fetcher.get(`/all-orders?email=${user.email}`)
+            setActive(false);
+            return data.allSortedBookings;
+        } catch (err) {
+            if (err?.response?.status === 403) message.warning(err?.response?.data?.message);
         }
-    }).then(res => res.json()))
+    })
+    console.log(data);
 
-    if (isLoading) {
-        return <Spinner />
-    }
-
-
-    const onChange = (id) => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/shipment-update/${id}`;
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json',
-                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify({ email: user.email })
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.result.modifiedCount > 0) {
+    const onChange = async (id, e) => {
+        if (e[0] === 'Shipped') {
+            try {
+                const { data } = await fetcher.put(`/shipment-update/${id}`, { data: { email: user.email } })
+                if (data.result?.modifiedCount > 0) {
                     message.success('Delivery status updated');
                     refetch();
                 }
-            })
-    };
-
-    const handleDeleteOrder = id => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/delete-order/${id}`;
-        fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'content-type': 'application/json',
-                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify({ email: user.email })
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.result.deletedCount > 0) {
-                    message.success('Order deleted successfully');
-                    refetch();
+            } catch (err) {
+                if (err?.response?.status === 403 || err?.response?.status === 401) {
+                    message.warning(err?.response?.data?.message);
                 }
-            })
-    }
-
-
-    const columns = [
-        {
-            title: 'Product Name',
-            dataIndex: ['productName', '_id'],
-            key: '_id',
-            render: (status, id) => <h1>{id.productName}</h1>,
-        },
-        {
-            title: 'Ordered Date',
-            dataIndex: ['date', '_id'],
-            key: '_id',
-            responsive: ['md'],
-            render: (status, id) => <h1>{id.date}</h1>,
-        },
-        {
-            title: 'Customer Name',
-            dataIndex: ['name', '_id'],
-            key: '_id',
-            responsive: ['md'],
-            render: (status, id) => <h1>{id.name}</h1>,
-        },
-        {
-            title: 'Transaction Id',
-            dataIndex: ['transactionId', '_id'],
-            key: '_id',
-            responsive: ['md'],
-            render: (status, id) => <h1 className='text-success'>{id.transactionId ? id.transactionId :
-                <span className='text-red-600'>UNPAID</span>}</h1>
-        },
-        {
-            title: 'Status',
-            dataIndex: ['paymentStatus', '_id'],
-            key: '_id',
-            responsive: ['lg'],
-            render: (status, id) => <Cascader options={options}
-                defaultValue={id.deliveryStatus ? 'Shipped' : 'Pending'}
-                expandTrigger="hover"
-                disabled={!id.paymentStatus || id.deliveryStatus}
-                onChange={() => onChange(id._id)} />
-        },
-        {
-            title: 'Action',
-            dataIndex: ['paymentStatus', '_id'],
-            key: '_id',
-            responsive: ['lg'],
-            render: (status, id) => {
-                return <Popconfirm
-                    placement="bottomRight"
-                    title="Are you sure want to delete?"
-                    onConfirm={async () => {
-                        handleDeleteOrder(id._id);
-                    }}
-                    okText="Yes"
-                    cancelText="No">
-                    <button
-                        className='hover:bg-red-700 bg-red-600 text-white
-            hover:text-white uppercase w-20 rounded duration-300'>
-                        Cancel
-                    </button>
-                </Popconfirm>
             }
         }
-    ];
+    };
 
 
-    const options = [
-        {
-            value: 'Pending',
-            label: 'Pending'
-        },
-        {
-            value: 'Shipped',
-            label: 'Shipped'
-        },
-    ];
+    const handleDeleteOrder = async id => {
+        try {
+            const { data } = await fetcher.delete(`/delete-order/${id}`, { data: { email: user.email } })
+            if (data.result?.deletedCount > 0) {
+                message.success('Order deleted');
+                refetch();
+            }
+        } catch (err) {
+            if (err?.response?.status === 403 || err?.response?.status === 401) {
+                message.warning(err?.response?.data?.message);
+            }
+        }
+    }
+
+    const { columns } = useColumn(active, onChange, handleDeleteOrder);
+
+    if (isLoading) {
+        return <Skeleton active />
+    }
 
     return (
         <div>
-            <h1>All orders {result?.length}</h1>
-            <Table columns={columns} dataSource={result} />
+            <h1>All orders {data?.length}</h1>
+            <Table columns={columns} dataSource={data} />
         </div>
     );
 };

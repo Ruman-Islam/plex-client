@@ -33,7 +33,6 @@ const Register = () => {
         //     }
         // }
         if (token) navigate(from, { replace: true });
-        console.log(token);
         if (error) message.error(error?.message.split('/')[1].split(')')[0]);
     }, [token, error, from, navigate]);
 
@@ -41,7 +40,7 @@ const Register = () => {
         <div className='h-[120vh] 2xl:h-screen flex flex-col justify-center items-center login'>
             {loading ? <Spinner /> :
                 <>
-                    <div className='login-logo'></div>
+                    <div onClick={() => navigate('/home')} className='login-logo cursor-pointer'></div>
                     <div className='border border-black shadow-lg'>
                         <div className='bg-neutral py-0.5 border border-t-0 border-l-0 border-r-0 border-b-1'>
                             <h1 className='text-left text-lg my-2 ml-5'>Register</h1>

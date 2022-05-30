@@ -8,12 +8,13 @@ import { message } from 'antd';
 
 const AddProduct = () => {
     const imageStorageKey = '4ae31085e7494be569a28241773ffa30';
-    const [user, loading, error] = useAuthState(auth);
+    const [user, , error] = useAuthState(auth);
+    const [loading, setLoading] = useState(false);
     const [imageURL, setImageURL] = useState({});
     const { register, handleSubmit, reset } = useForm();
 
     const onSubmit = async (data, event) => {
-
+        setLoading(true);
         const formData = new FormData();
         formData.append('image', imageURL);
 
@@ -37,7 +38,6 @@ const AddProduct = () => {
                             minimumOrder: data.minimumOrder,
                             productDesc: data.productDesc
                         }
-                        console.log(productInfo);
                         fetch(`https://mysterious-harbor-14588.herokuapp.com/add-product?email=${user.email}`, {
                             method: 'POST',
                             headers: {
@@ -49,6 +49,7 @@ const AddProduct = () => {
                             .then(res => res.json())
                             .then(async (data) => {
                                 if (data.success) {
+                                    setLoading(false);
                                     reset();
                                     message.success('Information updated!');
                                 }
@@ -59,7 +60,9 @@ const AddProduct = () => {
     };
 
     if (loading) {
-        return <Spinner margin="80" />
+        return (
+            <div className='flex justify-center items-center h-[90vh]'><Spinner /></div>
+        )
     }
     if (error) {
         message.success(error);

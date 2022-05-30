@@ -1,26 +1,29 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import fetcher from "../api/axios";
 
 const useToken = user => {
     const [token, setToken] = useState('');
-    const email = user?.user?.email;
+
+    const userInfo = useMemo(() => {
+        return {
+            email: user?.user?.email,
+            name: user?.user?.displayName,
+            photoURL: user?.user?.photoURL,
+            phone: user?.user?.phoneNumber,
+            role: 'user'
+        }
+    }, [user])
 
     useEffect(() => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/user/${email}`;
-        if (email) {
-            fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'content-type': 'application/json'
-                }
-            })
-                .then(res => res.json())
-                .then(data => {
-                    const accessToken = data.accessToken;
-                    localStorage.setItem('accessToken', accessToken);
-                    setToken(accessToken);
-                })
+        if (user?.user?.email) {
+            (async () => {
+                const { data } = await fetcher.post(`/user/${user?.user?.email}`, userInfo)
+                const accessToken = data.accessToken;
+                localStorage.setItem('accessToken', accessToken);
+                setToken(accessToken);
+            })()
         }
-    }, [email])
+    }, [user?.user?.email, userInfo])
 
     return { token };
 }

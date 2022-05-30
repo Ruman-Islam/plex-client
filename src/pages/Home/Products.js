@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import fetcher from '../../api/axios';
+import Spinner from '../../components/shared/Spinner';
 import ProductCard from './ProductCard';
 
 const Products = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('https://mysterious-harbor-14588.herokuapp.com/products')
-      .then(res => res.json())
-      .then(data => setProducts(data))
+    (async () => {
+      const { data } = await fetcher.get('/products')
+      setProducts(data);
+      setLoading(false);
+    })()
   }, [])
 
   return (
@@ -19,10 +24,14 @@ const Products = () => {
         <p className='text-sm xl:text-xl leading-none text-slate-500'>and analyze your operations.</p>
       </div>
 
-      <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-x-6 justify-center items-center 2xl:px-44 justify-items-center'>
-        {products.map(product => <ProductCard key={product._id} product={product} />)}
-      </div>
-
+      {loading ?
+        <div className='py-5 mx-auto'>
+          <Spinner />
+        </div>
+        :
+        <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-x-6 justify-center items-center 2xl:px-44 justify-items-center'>
+          {products.map(product => <ProductCard key={product._id} product={product} />)}
+        </div>}
     </div>
   );
 };

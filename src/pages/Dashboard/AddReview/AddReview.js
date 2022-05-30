@@ -3,15 +3,19 @@ import Rating from './Rating';
 import { Input, message } from 'antd';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase/firebaseConfig';
+import fetcher from '../../../api/axios';
+import Spinner from '../../../components/shared/Spinner';
 const { TextArea } = Input;
 
 const AddReview = () => {
     const [user, ,] = useAuthState(auth);
     const [rating, setRating] = useState(null);
     const [hover, setHover] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     // handle submit 
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
+        setLoading(true);
         e.preventDefault();
         const review = {
             name: user.displayName,
@@ -22,24 +26,21 @@ const AddReview = () => {
             date: new Date().toLocaleString().split(',')[0]
         }
 
-        fetch('https://mysterious-harbor-14588.herokuapp.com/add-review', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(review)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.success) {
-                    message.success('Thank You for give us review')
-                    e.target.companyTitle.value = '';
-                    e.target.text.value = '';
-                    setRating(null);
-                }
-            })
+        const { data } = await fetcher.post('/add-review', review)
+        if (data.success) {
+            message.success('Thank You for give us review')
+            e.target.companyTitle.value = '';
+            e.target.text.value = '';
+            setRating(null);
+            setLoading(false);
+        }
     };
+
+    if (loading) {
+        return (
+            <div className='flex justify-center items-center h-[90vh]'><Spinner /></div>
+        )
+    }
 
     return (
         <>

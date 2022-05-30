@@ -8,17 +8,17 @@ import useGetCurrentUser from '../../../hooks/useGetCurrentUser';
 import { LoadingOutlined } from '@ant-design/icons';
 import fetcher from '../../../api/axios';
 
-const CheckoutForm = ({ bookedProduct }) => {
+const DirectCheckForm = ({ product }) => {
     const navigate = useNavigate();
     const [user, ,] = useAuthState(auth);
     const { currentUser } = useGetCurrentUser(user.email);
-    const stripe = useStripe();
     const [quantity, setQuantity] = useState();
+    const stripe = useStripe();
     const elements = useElements();
     const [cardError, setCardError] = useState('');
     const [loading, setLoading] = useState(false);
     const [clientSecret, setClientSecret] = useState('');
-    const { _id, productPrice, minimumOrder, availableQuantity } = bookedProduct;
+    const { _id, productPrice, minimumOrder, availableQuantity } = product;
 
 
     useEffect(() => {
@@ -31,7 +31,6 @@ const CheckoutForm = ({ bookedProduct }) => {
             })()
         }
     }, [productPrice])
-
 
     useEffect(() => {
         if (+(quantity) < +(minimumOrder)) {
@@ -50,16 +49,6 @@ const CheckoutForm = ({ bookedProduct }) => {
         if (!event.target.address.value || !event.target.phone.value) {
             message.error('Address & phone is required');
             setLoading(false);
-            return;
-        }
-
-        if (+(event.target.productQuantity.value) < +minimumOrder) {
-            message.error(`Minimum order value ${minimumOrder}`);
-            return;
-        }
-
-        if (+(event.target.productQuantity.value) > +availableQuantity) {
-            message.error(`you have exceeded limit of order ${availableQuantity}`);
             return;
         }
 
@@ -109,15 +98,24 @@ const CheckoutForm = ({ bookedProduct }) => {
 
             // store payment on database
             const payment = {
-                product: _id,
+                productId: _id,
                 transactionId: paymentIntent.id,
-                name: event.target.name.value,
-                email: event.target.email.value,
-                address: event.target.address.value,
-                phone: event.target.phone.value,
-                productQuantity: event.target.productQuantity.value
+                name: user?.displayName,
+                email: user?.email,
+                productName: product.productName,
+                productPrice: +(product.productPrice),
+                availableQuantity: +(product.availableQuantity),
+                productQuantity: +(product.minimumOrder),
+                paymentStatus: true,
+                deliveryStatus: false,
+                productDesc: product.productDesc,
+                discount: +(product.discount),
+                rating: +(product.rating),
+                tags: product.tags,
+                productImage: product.productImage,
+                date: new Date().toDateString()
             }
-            const { data } = await fetcher.patch(`/booking/${_id}`, payment)
+            const { data } = await fetcher.post(`/payment-post/${_id}`, payment)
             if (data.paymentStatus) {
                 message.success('Payment Successful');
                 navigate('/dashboard/my-orders')
@@ -157,7 +155,6 @@ const CheckoutForm = ({ bookedProduct }) => {
                 <CardElement
                     className='border p-4 mt-3 rounded-lg'
                 />
-
                 <div className='flex justify-center w-full'>
                     <button
                         className='mt-4 w-full btn btn-info px-10 text-white text-lg uppercase rounded'
@@ -168,12 +165,10 @@ const CheckoutForm = ({ bookedProduct }) => {
                         </Spin>
                     </button>
                 </div>
-
             </form>
-
             {cardError && <p className='text-red-500'>{cardError}</p>}
         </>
     );
 };
 
-export default CheckoutForm;
+export default DirectCheckForm;

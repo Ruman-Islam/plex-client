@@ -1,7 +1,6 @@
 import {
     PieChartOutlined,
     DesktopOutlined,
-    MailOutlined,
     UnorderedListOutlined,
     EditOutlined,
     UserOutlined,
@@ -9,19 +8,32 @@ import {
     UsergroupAddOutlined,
     SnippetsFilled,
     FileAddOutlined,
+    VerifiedOutlined,
+    AppstoreAddOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Space } from 'antd';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase/firebaseConfig';
 import useAdmin from '../../hooks/useAdmin';
+import useGetCurrentUser from '../../hooks/useGetCurrentUser';
+import Spinner from '../../components/shared/Spinner';
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 const Dashboard = () => {
-    const [user, ,] = useAuthState(auth);
-    const { admin } = useAdmin(user);
+    const [user, loading,] = useAuthState(auth);
+    const { admin, adminLoading } = useAdmin(user);
     const year = new Date().getFullYear();
+    const { currentUser } = useGetCurrentUser(user.email);
+
+    if (loading || adminLoading) {
+        return (
+            <div className='flex justify-center items-center h-[90vh]'>
+                <Spinner />
+            </div>
+        )
+    }
 
     return (
         <Layout>
@@ -40,8 +52,10 @@ const Dashboard = () => {
                 <Menu
                     theme="dark"
                     mode="inline"
-                    defaultOpenKeys={['sub1', 'sub2']}
                 >
+                    <div className='flex items-center px-5 py-1 text-lg'>
+                        <span>{currentUser?.name}</span>
+                    </div>
 
                     {(user && !admin) &&
                         <>
@@ -54,7 +68,7 @@ const Dashboard = () => {
                         </>}
 
                     {(admin && user) &&
-                        <SubMenu key='sub1' icon={<MailOutlined />} title='Admin'>
+                        <SubMenu key='sub1' icon={<VerifiedOutlined />} title='Admin'>
                             <Menu.Item key='3' icon={<UsergroupAddOutlined />}>
                                 <NavLink to='all-user'>All users</NavLink>
                             </Menu.Item>
@@ -64,7 +78,7 @@ const Dashboard = () => {
                             <Menu.Item key='5' icon={<FileAddOutlined />}>
                                 <NavLink to='add-product'>Add Product</NavLink>
                             </Menu.Item>
-                            <Menu.Item key='6' icon={<UsergroupAddOutlined />}>
+                            <Menu.Item key='6' icon={<AppstoreAddOutlined />}>
                                 <NavLink to='manage-products'>Manage Products</NavLink>
                             </Menu.Item>
                             <Menu.Item key='7' icon={<UsergroupAddOutlined />}>

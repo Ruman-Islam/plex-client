@@ -3,43 +3,65 @@ import { useAuthState, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { useForm } from 'react-hook-form';
 import { Avatar, message } from 'antd';
 import auth from '../../../firebase/firebaseConfig';
-import Spinner from '../../../components/shared/Spinner';
 import { useQuery } from 'react-query';
+import fetcher from '../../../api/axios';
+import Spinner from '../../../components/shared/Spinner';
 
 const EditProfile = () => {
     const imageStorageKey = '4ae31085e7494be569a28241773ffa30';
-    const [user, loading, error] = useAuthState(auth);
+    const [user, , error] = useAuthState(auth);
     const [image, setImage] = useState('');
     const [imageURL, setImageURL] = useState({});
     const [updateProfile, ,] = useUpdateProfile(auth);
     const { register, handleSubmit } = useForm();
 
-    const url = `https://mysterious-harbor-14588.herokuapp.com/get-userInfo?email=${user.email}`;
-    const { data, isLoading } = useQuery(['editProfile', user], () => fetch(url, {
-        method: 'GET'
-    }).then(res => {
-        return res.json()
-    }))
 
-    useEffect(() => setImage(user.photoURL), [user]);
+    const { data, isLoading, refetch } = useQuery(['editProfile', user], async () => {
+        try {
+            const { data } = await fetcher.get(`/get-userInfo?email=${user.email}`)
+            return data.result;
+        } catch (err) {
+            if (err?.response?.status === 403 || err?.response?.status === 401) {
+                message.warning(err?.response?.data?.message);
+            }
+        }
+    })
+
+    useEffect(() => setImage(data?.photoURL), [data]);
+
+    const updateUserInfo = async userInfo => {
+        try {
+            const { data } = await fetcher.put(`/add-userInfo?email=${user.email}`, { data: userInfo })
+            if (data.success) {
+                refetch();
+                await updateProfile({ displayName: userInfo.name })
+            }
+        } catch (err) {
+            if (err?.response?.status === 403 || err?.response?.status === 401) {
+                message.warning(err?.response?.data?.message);
+            }
+        }
+    }
+
 
     const changeImage = e => {
         setImage(URL.createObjectURL(e.target.files[0]));
         setImageURL(e.target.files[0]);
     };
 
+
     const onSubmit = async data => {
 
-        let userInfo = {
+        const userInfo = {
             name: data.firstName + ' ' + data.lastName,
             email: user.email,
             phone: data.phone,
             education: data.education,
             location: data.city,
-            linkedIn: data.linkedIn
+            linkedIn: data.linkedIn,
+            photoURL: image
         }
 
-        const fullName = data.firstName + ' ' + data.lastName
         const formData = new FormData();
         formData.append('image', imageURL);
 
@@ -50,32 +72,23 @@ const EditProfile = () => {
                 body: formData
             })
                 .then(res => res.json())
-                .then((result) => {
+                .then(async (result) => {
                     if (result.success) {
-                        updateProfile({ photoURL: result.data.url })
+                        const newUserInfo = { ...userInfo, photoURL: result?.data?.url }
+                        await updateUserInfo(newUserInfo);
                     }
                 })
         }
 
-        fetch(`https://mysterious-harbor-14588.herokuapp.com/add-userInfo?email=${user.email}`, {
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(userInfo)
-        })
-            .then(res => res.json())
-            .then(async (data) => {
-                if (data.success) {
-                    await updateProfile({ displayName: fullName })
-                    message.success('Information updated!');
-                }
-            })
+        await updateUserInfo(userInfo);
     };
 
-    if (isLoading || loading) {
-        return <Spinner margin="80" />
+    if (isLoading) {
+        return <div>
+            <Spinner />
+        </div>
     }
+
     if (error) {
         message.success(error);
     }
@@ -108,14 +121,14 @@ const EditProfile = () => {
                                 <label htmlFor="first-name">First Name</label>
                                 <input
                                     className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
-                                    placeholder='First Name' defaultValue={user.displayName.split(' ')[0]}
+                                    placeholder='First Name' defaultValue={user.displayName?.split(' ')[0]}
                                     name="first-name" id='first-name' type="text" {...register("firstName")} />
                             </div>
                             <div>
                                 <label htmlFor="last-name">Last Name</label>
                                 <input
                                     className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
-                                    placeholder='Last name' defaultValue={user.displayName.split(' ')[1]}
+                                    placeholder='Last name' defaultValue={user.displayName?.split(' ')[1]}
                                     name="last-name" id='last-name' type="text" {...register("lastName")} />
                             </div>
                         </div>
@@ -127,7 +140,7 @@ const EditProfile = () => {
                             <input
                                 className='outline-0 cursor-not-allowed w-full
                                  rounded-2xl border px-3 mr-10 py-1 border-[#1890ff] my-1'
-                                defaultValue={data?.result?.email} disabled
+                                defaultValue={data?.email} disabled
                                 name="email" id='email' type="email" {...register("email")} />
                         </div>
 
@@ -136,7 +149,7 @@ const EditProfile = () => {
                             <input
                                 className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
                                 name="phone" id='phone' type="text"
-                                defaultValue={data?.result?.userInfo?.phone}
+                                defaultValue={data?.phone}
                                 {...register("phone")} />
                         </div>
 
@@ -145,7 +158,7 @@ const EditProfile = () => {
                             <select
                                 className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
                                 name="education" id="education"
-                                defaultValue={data?.result?.userInfo?.education}
+                                defaultValue={data?.education}
                                 {...register("education")}>
                                 <option value="JSC/JDC/8 Pass">JSC/JDC/8 Pass</option>
                                 <option value="Secondary">Secondary</option>
@@ -160,7 +173,7 @@ const EditProfile = () => {
                         <div className='mt-5'>
                             <label htmlFor="city">City/state</label>
                             <input
-                                defaultValue={data?.result?.userInfo?.location}
+                                defaultValue={data?.location}
                                 className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
                                 name="city" id='city' type="text" {...register("city")} />
                         </div>
@@ -168,7 +181,7 @@ const EditProfile = () => {
                         <div className='mt-5'>
                             <label htmlFor="city">LinkIn Profile Link</label>
                             <input
-                                defaultValue={data?.result?.userInfo?.linkedIn}
+                                defaultValue={data?.linkedIn}
                                 className='outline-0 w-full rounded-2xl border px-3 py-1 border-[#1890ff] my-1'
                                 name="linkedIn" id='linkedIn' type="text" {...register("linkedIn")} />
                         </div>

@@ -3,6 +3,7 @@ import img1 from '../../assets/images/IDC-Saas-Award-ERP-color.webp';
 import Rating from 'react-rating';
 import { StarFilled, StarOutlined } from '@ant-design/icons';
 import { useQuery } from 'react-query';
+import fetcher from '../../api/axios';
 
 const contentStyle = {
     background: '#F2F3F3',
@@ -10,11 +11,10 @@ const contentStyle = {
 };
 
 const Review = () => {
-    const url = 'https://mysterious-harbor-14588.herokuapp.com/get-review';
-    const { data: { reviews } = {} } = useQuery('getReview', () => fetch(url, {
-        method: 'GET'
-    }).then(res => res.json()))
-
+    const { data: { reviews } = {} } = useQuery('getReview', async () => {
+        const { data } = await fetcher.get('/get-review')
+        return data;
+    })
 
     return (
         <div className='border border-black w-10/10 xl:w-8/12 xl:mx-auto my-20 mx-2'>

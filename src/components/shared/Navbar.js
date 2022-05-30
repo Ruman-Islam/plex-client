@@ -31,7 +31,7 @@ const Navbar = ({ background, font }) => {
         <nav className={`fixed w-full z-50 bg-${background} ${navbar === 5 ? 'scroll-up' : 'scroll duration-500 shadow-lg'}`}>
             <div className="header">
                 <div className="logo">
-                    <NavLink className={`text-${font} hover:text-white ${navbar && 'text-black hover:text-black'}`} to="/">
+                    <NavLink className={`text-${font} hover:text-${font} ${navbar && 'text-black hover:text-black'}`} to="/">
                         <span className='flex items-center text-4xl xl:text-5xl'>PL<AiOutlineMenu className='text-primary' />X</span>
                     </NavLink>
                 </div>
@@ -45,7 +45,7 @@ const Navbar = ({ background, font }) => {
                         title="Are you sure want to logout?"
                         onConfirm={async () => {
                             await signOut(auth)
-                            navigate('/home')
+                            localStorage.removeItem('accessToken');
                         }}
                         okText="Logout"
                         cancelText="Cancel">

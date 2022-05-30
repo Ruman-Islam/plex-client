@@ -1,97 +1,44 @@
-import { message, Popconfirm, Table } from 'antd';
-import React from 'react';
+import { message, Skeleton, Table } from 'antd';
+import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useQuery } from 'react-query';
-import Spinner from '../../../components/shared/Spinner';
+import fetcher from '../../../api/axios';
 import auth from '../../../firebase/firebaseConfig';
+import { useColumn } from './columns';
 
 const ManageProduct = () => {
+    const [active, setActive] = useState(true);
+
     const [user, ,] = useAuthState(auth);
 
-    const url = 'https://mysterious-harbor-14588.herokuapp.com/products';
-    const { data, isLoading, refetch } = useQuery(['all-products', user], () => fetch(url, {
-        method: 'GET',
-        headers: {
-            'content-type': 'application/json'
+    const { data, isLoading, refetch } = useQuery(['all-products', user], async () => {
+        try {
+            const { data } = await fetcher.get(`/products`)
+            setActive(false);
+            return data;
+        } catch (err) {
+            if (err?.response?.status === 401) message.warning(err?.response?.data?.message);
         }
-    }).then(res => res.json()))
+    })
+
+
+    const handleDeleteProduct = async id => {
+        try {
+            const { data } = await fetcher.delete(`/delete-product/${id}`, { data: { email: user.email } })
+            if (data.result.deletedCount > 0) {
+                refetch();
+                message.success('Order deleted successfully');
+            }
+        } catch (err) {
+            if (err?.response?.status === 401) message.warning(err?.response?.data?.message);
+        }
+    }
+
+    const { columns } = useColumn(active, handleDeleteProduct)
 
     if (isLoading) {
-        return <Spinner />
+        return <Skeleton active />
     }
-
-
-    const handleDeleteProduct = id => {
-        const url = `https://mysterious-harbor-14588.herokuapp.com/delete-product/${id}`;
-        fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'content-type': 'application/json',
-                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            },
-            body: JSON.stringify({ email: user.email })
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.result.deletedCount > 0) {
-                    message.success('Order deleted successfully');
-                    refetch();
-                }
-            })
-    }
-
-
-    const columns = [
-        {
-            title: 'Product Name',
-            dataIndex: ['productName', '_id'],
-            key: '_id',
-            render: (status, id) => <h1>{id.productName}</h1>,
-        },
-        {
-            title: 'Price',
-            dataIndex: ['productPrice', '_id'],
-            key: '_id',
-            responsive: ['md'],
-            render: (status, productPrice) => <h1>{productPrice.productPrice} $</h1>,
-        },
-        {
-            title: 'Available Quantity',
-            dataIndex: ['availableQuantity', '_id'],
-            key: '_id',
-            responsive: ['md'],
-            render: (status, id) => <h1>{id.availableQuantity} pieces</h1>,
-        },
-        {
-            title: 'Minimum Order',
-            dataIndex: ['minimumOrder', '_id'],
-            key: '_id',
-            responsive: ['md'],
-            render: (status, minimumOrder) => <h1>{minimumOrder.minimumOrder} pieces</h1>,
-        },
-        {
-            title: 'Action',
-            dataIndex: ['paymentStatus', '_id'],
-            key: '_id',
-            responsive: ['lg'],
-            render: (status, id) => {
-                return <Popconfirm
-                    placement="bottomRight"
-                    title="Are you sure want to delete?"
-                    onConfirm={async () => {
-                        handleDeleteProduct(id._id)
-                    }}
-                    okText="Yes"
-                    cancelText="No">
-                    <button
-                        className='hover:bg-red-700 bg-red-600 text-white
-            hover:text-white uppercase w-20 rounded duration-300'>
-                        Delete
-                    </button>
-                </Popconfirm>
-            }
-        }
-    ];
 
     return (
         <div>
