@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import fetcher from '../../api/axios';
 import Spinner from '../../components/shared/Spinner';
 import ProductCard from './ProductCard';
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await fetcher.get('/products')
-      setProducts(data);
-      setLoading(false);
-    })()
-  }, [])
+  const { data, isLoading } = useQuery('products', async () => {
+    const { data } = await fetcher.get('/products')
+    return data
+  })
+
+  if (isLoading) {
+    return <div className='py-44 mx-auto'>
+      <Spinner />
+    </div>
+  }
 
   return (
     <div className='text-center my-20 2xl:my-28 px-10 xl:px-56'>
@@ -24,14 +25,10 @@ const Products = () => {
         <p className='text-sm xl:text-xl leading-none text-slate-500'>and analyze your operations.</p>
       </div>
 
-      {loading ?
-        <div className='py-5 mx-auto'>
-          <Spinner />
-        </div>
-        :
-        <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-x-6 justify-center items-center 2xl:px-44 justify-items-center'>
-          {products.map(product => <ProductCard key={product._id} product={product} />)}
-        </div>}
+
+      <div className='grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-x-6 justify-center items-center 2xl:px-44 justify-items-center'>
+        {data.map(product => <ProductCard key={product._id} product={product} />)}
+      </div>
     </div>
   );
 };

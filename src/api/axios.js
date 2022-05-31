@@ -1,11 +1,32 @@
 import axios from 'axios';
+const baseURL = 'https://mysterious-harbor-14588.herokuapp.com'
 
 const fetcher = axios.create({
-    baseURL: 'https://mysterious-harbor-14588.herokuapp.com',
+    baseURL,
     headers: {
-        "Content-type": "application/json",
-        authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        'Content-Type': 'application/json',
     }
+});
+
+fetcher.interceptors.request.use(
+    (config) => {
+        const token = `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}`;
+        if (token) {
+            config.headers.authorization = token;
+        }
+        return config;
+    },
+    (error) => Promise.reject(error),
+);
+
+fetcher.interceptors.response.use(function (response) {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    // Do something with response data
+    return response;
+}, function (error) {
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    // Do something with response error
+    return Promise.reject(error);
 });
 
 export default fetcher;

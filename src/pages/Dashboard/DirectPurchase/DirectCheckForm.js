@@ -37,7 +37,7 @@ const DirectCheckForm = ({ product }) => {
             setCardError(`Minimum order value ${minimumOrder}`);
         }
         else if (+(quantity) > +(availableQuantity)) {
-            setCardError(`you have exceeded limit of order ${availableQuantity}`);
+            setCardError(`You have exceeded limit of order ${availableQuantity}`);
         } else {
             setCardError('');
         }
@@ -159,14 +159,15 @@ const DirectCheckForm = ({ product }) => {
                     <button
                         className='mt-4 w-full btn btn-info px-10 text-white text-lg uppercase rounded'
                         type="submit"
-                        disabled={!stripe || !clientSecret || loading || quantity < minimumOrder || quantity > +availableQuantity}>
+                        disabled={!stripe || !clientSecret || loading || +quantity < +minimumOrder || +quantity > +availableQuantity}>
                         <Spin spinning={loading} indicator={<LoadingOutlined />}>
                             pay now
                         </Spin>
                     </button>
                 </div>
             </form>
-            {cardError && <p className='text-red-500'>{cardError}</p>}
+
+            {cardError && <p className='text-red-500 text-xl'>{cardError}</p>}
         </>
     );
 };

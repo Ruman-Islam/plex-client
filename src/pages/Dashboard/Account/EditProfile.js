@@ -51,7 +51,6 @@ const EditProfile = () => {
 
 
     const onSubmit = async data => {
-
         const userInfo = {
             name: data.firstName + ' ' + data.lastName,
             email: user.email,
@@ -84,9 +83,11 @@ const EditProfile = () => {
     };
 
     if (isLoading) {
-        return <div>
-            <Spinner />
-        </div>
+        return (
+            <div className='flex justify-center items-center min-h-screen'>
+                <Spinner />
+            </div>
+        )
     }
 
     if (error) {

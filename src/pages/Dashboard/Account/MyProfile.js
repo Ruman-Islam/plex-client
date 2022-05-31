@@ -1,4 +1,4 @@
-import { Avatar, message } from 'antd';
+import { Avatar } from 'antd';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../../firebase/firebaseConfig';
 import { HomeTwoTone, LinkedinFilled, MailTwoTone, PhoneTwoTone, ReadFilled } from '@ant-design/icons';
@@ -9,6 +9,7 @@ import Spinner from '../../../components/shared/Spinner';
 
 const MyProfile = () => {
     const [user, ,] = useAuthState(auth);
+    console.log(user);
 
 
     const { data, isLoading } = useQuery(['get-profile', user], async () => {
@@ -17,7 +18,7 @@ const MyProfile = () => {
             return data.result;
         } catch (err) {
             if (err?.response?.status === 403 || err?.response?.status === 401) {
-                message.warning(err?.response?.data?.message);
+                localStorage.removeItem('accessToken');
             }
         }
     })

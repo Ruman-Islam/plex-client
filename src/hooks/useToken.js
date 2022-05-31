@@ -1,3 +1,4 @@
+// import axios from "axios";
 import { useEffect, useMemo, useState } from "react"
 import fetcher from "../api/axios";
 
@@ -17,9 +18,9 @@ const useToken = user => {
     useEffect(() => {
         if (user?.user?.email) {
             (async () => {
-                const { data } = await fetcher.post(`/user/${user?.user?.email}`, userInfo)
+                const { data } = await fetcher.post(`/user/${user?.user?.email}`, userInfo);
                 const accessToken = data.accessToken;
-                localStorage.setItem('accessToken', accessToken);
+                localStorage.setItem('accessToken', JSON.stringify(accessToken));
                 setToken(accessToken);
             })()
         }

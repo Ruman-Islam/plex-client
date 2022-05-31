@@ -18,7 +18,7 @@ const ProductDetail = ({ product }) => {
                         readonly>
                     </Rating> <span className='mt-0.5 ml-2'>{product.rating}/5</span>
                 </div>
-                <p className='flex text-lg'><span className='mr-2'>AVAILABILITY :</span>
+                <p className='flex text-lg'><span className='mr-2 uppercase'>in stock :</span>
                     <span className='flex items-center text-green-500'>
                         <span className='mr-2'>{product.availableQuantity}</span>
                     </span>

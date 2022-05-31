@@ -19,7 +19,6 @@ const ManageOrders = () => {
             if (err?.response?.status === 403) message.warning(err?.response?.data?.message);
         }
     })
-    console.log(data);
 
     const onChange = async (id, e) => {
         if (e[0] === 'Shipped') {

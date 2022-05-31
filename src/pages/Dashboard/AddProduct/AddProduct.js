@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import auth from '../../../firebase/firebaseConfig';
 import Spinner from '../../../components/shared/Spinner';
 import { message } from 'antd';
+import fetcher from '../../../api/axios';
+import axios from 'axios';
 
 
 const AddProduct = () => {
@@ -13,49 +15,33 @@ const AddProduct = () => {
     const [imageURL, setImageURL] = useState({});
     const { register, handleSubmit, reset } = useForm();
 
-    const onSubmit = async (data, event) => {
+    const onSubmit = async product => {
         setLoading(true);
         const formData = new FormData();
         formData.append('image', imageURL);
 
         const url = `https://api.imgbb.com/1/upload?key=${imageStorageKey}`
         if (imageURL.name) {
-            fetch(url, {
-                method: 'POST',
-                body: formData
-            })
-                .then(res => res.json())
-                .then((result) => {
-                    if (result.success) {
-                        let productInfo = {
-                            productName: data.productName,
-                            productPrice: data.price,
-                            availableQuantity: data.availableQuantity,
-                            discount: data.discount,
-                            rating: data.rating,
-                            tags: data.tags,
-                            productImage: result.data.url,
-                            minimumOrder: data.minimumOrder,
-                            productDesc: data.productDesc
-                        }
-                        fetch(`https://mysterious-harbor-14588.herokuapp.com/add-product?email=${user.email}`, {
-                            method: 'POST',
-                            headers: {
-                                'content-type': 'application/json',
-                                authorization: `Bearer ${localStorage.getItem('accessToken')}`
-                            },
-                            body: JSON.stringify(productInfo)
-                        })
-                            .then(res => res.json())
-                            .then(async (data) => {
-                                if (data.success) {
-                                    setLoading(false);
-                                    reset();
-                                    message.success('Information updated!');
-                                }
-                            })
-                    }
-                })
+            const result = await axios.post(url, formData)
+            if (result.data.success) {
+                let productInfo = {
+                    productName: product.productName,
+                    productPrice: product.price,
+                    availableQuantity: product.availableQuantity,
+                    discount: product.discount,
+                    rating: product.rating,
+                    tags: product.tags,
+                    productImage: result.data.data.url,
+                    minimumOrder: product.minimumOrder,
+                    productDesc: product.productDesc
+                }
+                const { data } = await fetcher.post(`/add-product?email=${user.email}`, productInfo)
+                if (data.success) {
+                    setLoading(false);
+                    message.success('Information updated!');
+                    reset();
+                }
+            }
         }
     };
 
@@ -67,6 +53,7 @@ const AddProduct = () => {
     if (error) {
         message.success(error);
     }
+
     return (
         <div className='xl:w-8/12 mx-auto border p-2'>
             <h1 className='text-2xl mb-5'>Add Product</h1>
