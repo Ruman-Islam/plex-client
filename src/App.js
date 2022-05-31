@@ -8,6 +8,7 @@ import { publicRoutes } from "./routes/publicRoutes";
 import { nestedRoutes } from "./routes/nestedRoutes";
 import { adminRoutes } from "./routes/adminRoutes";
 import 'antd/dist/antd.css';
+import './App.css';
 
 
 

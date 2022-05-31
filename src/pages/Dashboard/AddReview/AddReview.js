@@ -15,8 +15,12 @@ const AddReview = () => {
 
     // handle submit 
     const handleSubmit = async e => {
-        setLoading(true);
         e.preventDefault();
+        if (e.target.companyTitle.value === '' || e.target.text.value === '') {
+            console.log('object');
+            return message.warning('Field is empty')
+        }
+        setLoading(true);
         const review = {
             name: user.displayName,
             email: user.email,

@@ -15,23 +15,11 @@ const useAdmin = user => {
                     setAdmin(data.admin)
                     setAdminLoading(false)
                 } catch (error) {
-                    if (error.response.status === 401 || error.response.status === 403) {
+                    if (error.response?.status === 401 || error.response?.status === 403) {
                         message.warning(error?.response?.data?.message);
                     }
                 }
             })()
-            // fetch(`https://mysterious-harbor-14588.herokuapp.com/admin/${email}`, {
-            //     method: 'GET',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         authorization: `Bearer ${localStorage.getItem('accessToken')}`
-            //     }
-            // })
-            //     .then(res => res.json())
-            //     .then(data => {
-            //         setAdmin(data.admin);
-            //         setAdminLoading(false);
-            //     })
         }
     }, [user])
 
